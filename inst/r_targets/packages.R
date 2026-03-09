@@ -4,5 +4,5 @@ library(targets)
 library(tarchetypes)
 
 ## examples
-# libary(tidvyerse)
+# library(tidyverse)
 # conflict_prefers(dplyr::filter, dplyr::lag, .quiet = TRUE)
