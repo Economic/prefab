@@ -1,2 +1,10 @@
 ^prefab\.Rproj$
 ^\.Rproj\.user$
+^plans$
+^CLAUDE\.md$
+^\.claude$
+^LICENSE\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$

@@ -8,13 +8,16 @@ If the general targets scaffolding (`_targets.R`, etc.) does not exist, create
 
 ### Development workflow
 
+Re-run the targets pipeline after any changes: `Rscript -e 'targets::tar_make()'`. 
+
+Load or read existing targets with `tar_load()` or `tar_read()`, respectively.
 
 ### `_targets.R`
 
 `_targets.R` should have the following structure
 
 ```
-source("./packages.R")
+source("packages.R")
 tar_source()
 
 ## targets pipeline goes here
@@ -58,9 +61,11 @@ data_input = "data_input.csv" |>
 
 ### Packages
 
-Do not use `renv` unless requested explicitly.
-
 All packages should be loaded in packages.R. Do not use syntax like `package::function()`.
+
+Use `library(conflicted)` and `conflicts_prefer()` to resolve all conflicts.
+
+Use `renv` only if explicitly requested or already initialized.
 
 ### Structuring pipelines: default to "wide" instead of "long"
 

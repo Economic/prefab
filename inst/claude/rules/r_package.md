@@ -27,4 +27,4 @@ After any changes to the package:
 - Use descriptive test names that state what is being tested and the expected outcome.
 - Group related tests together within a file.
 - Validation tests should verify both the success case and the error message for invalid input.
-- Tests for `R/{name}.R` go in `tests/testthat/test-{name}.R`. 
+- Tests for `R/{name}.R` go in `tests/testthat/test-{name}.R`.

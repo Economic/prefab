@@ -22,6 +22,8 @@ If the complete data analysis is a single script, load all packages with `librar
 
 Use the `conflicted` package to resolve conflicts.
 
+Use `renv` only if explicitly requested or already initialized.
+
 #### Object names
 
 Use snake case (lower case with underscores `_`) for variable and function names. Prefer verbs for function names.

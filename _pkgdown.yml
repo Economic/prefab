@@ -1,0 +1,27 @@
+url: https://economic.github.io/prefab
+template:
+  bootstrap: 5
+
+reference:
+  - title: "Apply themes"
+    contents:
+      - use_theme
+      - create_project
+
+  - title: "Build themes"
+    contents:
+      - new_theme
+      - step_file
+      - step_text
+      - step_run
+      - from_package
+      - from_dir
+      - theme_code
+
+  - title: "Pre-set themes"
+    contents:
+      - r_analysis
+      - r_targets
+      - claude_r_analysis
+      - claude_r_targets
+

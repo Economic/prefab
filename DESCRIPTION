@@ -1,11 +1,36 @@
 Package: prefab
-Title: What the Package Does (One Line, Title Case)
+Title: Opinionated Project Scaffolding via Composable Themes
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Authors@R:
+    c(person(given = "Ben",
+             family = "Zipperer",
+             role = c("aut", "cre"),
+             email = "benzipperer@gmail.com"),
+      person(given = "Economic Policy Institute",
+             role = c("cph", "fnd")))
+Description: Provides a composable theme system for project scaffolding. Themes
+    are ordered lists of steps that deploy files, inline text, or execute
+    functions, with per-file merge strategies for handling pre-existing content.
+    Includes pre-set themes for R analysis projects, targets workflows, and
+    Claude Code agent configuration.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+URL: https://economic.github.io/prefab/, https://github.com/Economic/prefab
+BugReports: https://github.com/Economic/prefab/issues
+Config/testthat/edition: 3
+Imports:
+    cli,
+    fs,
+    glue,
+    jsonlite,
+    rlang,
+    rprojroot,
+    withr
+Suggests:
+    knitr,
+    rmarkdown,
+    rstudioapi,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
