@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Opinionated Project Scaffolding via Composable Themes • prefab</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -32,13 +37,8 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/prefab.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/custom-themes.html">Building custom themes with prefab</a></li>
-  </ul>
-</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -59,8 +59,7 @@
 <a class="anchor" aria-label="anchor" href="#prefab-"></a>
 </h1>
 </div>
-<p>Composable Project Scaffolding for R</p>
-<p>prefab provides an opinionated theme system for setting up R projects. Themes are ordered lists of steps (files, text, functions) that you compose with <code>+</code> and apply in one call. Ships with themes for analysis projects, targets workflows, and Claude Code agent configuration.</p>
+<p>prefab provides an opinionated theme system for setting up R projects. A theme is a function that returns an ordered list of steps that deploy files, inject text, or run functions. Because themes are functions, they take parameters, compose with <code>+</code>, and ship in packages. Nothing touches the file system until you apply a theme with <code><a href="reference/use_theme.html">use_theme()</a></code> or <code><a href="reference/create_project.html">create_project()</a></code>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -189,6 +188,17 @@
 <span><span class="co">#&gt;   from_package("prefab")("r_analysis/README.md", "README.md", strategy = "skip", data = list()),</span></span>
 <span><span class="co">#&gt;   step_text(c(".Rproj.user", ".Rhistory", ".RData", ".DS_Store"), ".gitignore", strategy = "union")</span></span>
 <span><span class="co">#&gt; )</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
+</h2>
+<p>This package draws heavily on ideas from the R packages:</p>
+<ul>
+<li>
+<a href="https://www.danieldsjoberg.com/starter/" class="external-link">starter</a> by Daniel D. Sjoberg</li>
+<li>
+<a href="https://usethis.r-lib.org/" class="external-link">usethis</a> by Hadley Wickham, Jennifer Bryan, Malcolm Barrett, and Andy Teucher.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
