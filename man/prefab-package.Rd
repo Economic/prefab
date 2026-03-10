@@ -6,10 +6,26 @@
 \alias{prefab-package}
 \title{prefab: Opinionated Project Scaffolding via Composable Themes}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Provides a composable theme system for project scaffolding. Themes are ordered lists of steps that deploy files, inline text, or execute functions, with per-file merge strategies for handling pre-existing content. Includes pre-set themes for R analysis projects, targets workflows, and Claude Code agent configuration.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://economic.github.io/prefab/}
+  \item \url{https://github.com/Economic/prefab}
+  \item Report bugs at \url{https://github.com/Economic/prefab/issues}
+}
+
+}
 \author{
-\strong{Maintainer}: Ben Burnett \email{ben@benburnett.com}
+\strong{Maintainer}: Ben Zipperer \email{benzipperer@gmail.com}
+
+Other contributors:
+\itemize{
+  \item Economic Policy Institute [copyright holder, funder]
+}
 
 }
 \keyword{internal}

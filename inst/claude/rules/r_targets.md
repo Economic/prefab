@@ -10,7 +10,7 @@ If the general targets scaffolding (`_targets.R`, etc.) does not exist, create
 
 Re-run the targets pipeline after any changes: `Rscript -e 'targets::tar_make()'`. 
 
-Load or read existing targets with `tar_load()` or `tar_read()`, respectively.
+To inspect targets interactively or in ad hoc scripts, first call `targets::tar_load_globals()` to load all packages and functions, then use `tar_load()` or `tar_read()` to access built targets.
 
 ### `_targets.R`
 

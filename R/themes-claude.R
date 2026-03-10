@@ -40,6 +40,11 @@ claude_r_targets <- function() {
       strategy = "merge_json"
     ),
     from_prefab("claude/rules/r_targets.md", ".claude/rules/r_targets.md"),
+    from_prefab(
+      "claude/rules/r_analysis.md",
+      ".claude/rules/r_analysis.md",
+      strategy = "skip"
+    ),
     step_text(gitignore_lines, ".gitignore", strategy = "union")
   )
 }
