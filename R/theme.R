@@ -169,9 +169,9 @@ format_step_file_code <- function(step) {
     } else if (prov$helper == "from_dir") {
       source_expr <- paste0(
         'from_dir("',
-        prov$path,
+        escape_backslashes(prov$path),
         '")("',
-        prov$relative_path,
+        escape_backslashes(prov$relative_path),
         '"'
       )
     }
@@ -189,7 +189,13 @@ format_step_file_code <- function(step) {
     paste0(parts, ")")
   } else {
     # Fall back to step_file()
-    parts <- paste0('step_file("', step$source, '", "', step$dest, '"')
+    parts <- paste0(
+      'step_file("',
+      escape_backslashes(step$source),
+      '", "',
+      step$dest,
+      '"'
+    )
 
     if (step$strategy != "overwrite") {
       parts <- paste0(parts, ', strategy = "', step$strategy, '"')
@@ -241,4 +247,8 @@ format_step_run_code <- function(step) {
 
 deparse_compact <- function(x) {
   paste(deparse(x), collapse = "")
+}
+
+escape_backslashes <- function(x) {
+  gsub("\\", "\\\\", x, fixed = TRUE)
 }
