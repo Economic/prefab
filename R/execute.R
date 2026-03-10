@@ -18,8 +18,12 @@ execute_theme <- function(theme, project_root) {
       {
         if (inherits(step, "prefab_step_file")) {
           deploy_file(
-            step$source, step$dest, step$strategy,
-            step$data, auto_context, project_root
+            step$source,
+            step$dest,
+            step$strategy,
+            step$data,
+            auto_context,
+            project_root
           )
         } else if (inherits(step, "prefab_step_text")) {
           deploy_text(step$content, step$dest, step$strategy, project_root)

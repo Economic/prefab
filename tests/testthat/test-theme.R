@@ -136,7 +136,11 @@ test_that("theme_code() output is parseable R code", {
 
 test_that("theme_code() uses provenance for portable output", {
   builder <- from_package("prefab")
-  s <- builder("claude/settings.json", ".claude/settings.json", strategy = "merge_json")
+  s <- builder(
+    "claude/settings.json",
+    ".claude/settings.json",
+    strategy = "merge_json"
+  )
   t <- new_theme(s)
   code <- withr::with_output_sink(tempfile(), theme_code(t))
   expect_match(code, "from_package")
@@ -169,7 +173,11 @@ test_that("theme_code() for empty theme", {
 
 test_that("theme_code() roundtrip for file steps with provenance", {
   builder <- from_package("prefab")
-  s <- builder("claude/settings.json", ".claude/settings.json", strategy = "merge_json")
+  s <- builder(
+    "claude/settings.json",
+    ".claude/settings.json",
+    strategy = "merge_json"
+  )
   t <- new_theme(s)
   code <- withr::with_output_sink(tempfile(), theme_code(t))
   # Evaluate the code to get a reconstructed theme

@@ -15,7 +15,12 @@ r_analysis <- function() {
   from_prefab <- from_package("prefab")
   new_theme(
     from_prefab("r_analysis/main.R", "main.R", strategy = "skip"),
-    from_prefab("r_analysis/README.md", "README.md", strategy = "skip", data = list()),
+    from_prefab(
+      "r_analysis/README.md",
+      "README.md",
+      strategy = "skip",
+      data = list()
+    ),
     step_text(gitignore_lines, ".gitignore", strategy = "union")
   )
 }
@@ -35,7 +40,12 @@ r_targets <- function() {
   new_theme(
     from_prefab("r_targets/_targets.R", "_targets.R", strategy = "skip"),
     from_prefab("r_targets/packages.R", "packages.R", strategy = "skip"),
-    from_prefab("r_targets/README.md", "README.md", strategy = "skip", data = list()),
+    from_prefab(
+      "r_targets/README.md",
+      "README.md",
+      strategy = "skip",
+      data = list()
+    ),
     step_text(gitignore_lines, ".gitignore", strategy = "union"),
     step_run(fs::dir_create, "R", .label = "fs::dir_create")
   )

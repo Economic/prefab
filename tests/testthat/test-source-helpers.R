@@ -9,7 +9,11 @@ test_that("from_package() returns a function", {
 
 test_that("from_package() step-builder returns prefab_step_file with correct path", {
   builder <- from_package("prefab")
-  s <- builder("claude/settings.json", ".claude/settings.json", strategy = "merge_json")
+  s <- builder(
+    "claude/settings.json",
+    ".claude/settings.json",
+    strategy = "merge_json"
+  )
   expect_s3_class(s, "prefab_step_file")
   expect_true(fs::is_absolute_path(s$source))
   expect_true(fs::file_exists(s$source))
@@ -44,7 +48,8 @@ test_that("from_package() step-builder works when source is a directory", {
 test_that("from_package() step-builder forwards data to step_file", {
   builder <- from_package("prefab")
   s <- builder(
-    "claude/settings.json", ".claude/settings.json",
+    "claude/settings.json",
+    ".claude/settings.json",
     data = list(x = 1)
   )
   expect_equal(s$data, list(x = 1))

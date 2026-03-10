@@ -13,9 +13,23 @@ test_that("claude_r_targets() returns valid prefab_theme", {
 })
 
 test_that("claude source files exist in inst/", {
-  expect_true(fs::file_exists(fs::path_package("prefab", "claude", "settings.json")))
-  expect_true(fs::file_exists(fs::path_package("prefab", "claude", "rules", "r_analysis.md")))
-  expect_true(fs::file_exists(fs::path_package("prefab", "claude", "rules", "r_targets.md")))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "claude",
+    "settings.json"
+  )))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "claude",
+    "rules",
+    "r_analysis.md"
+  )))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "claude",
+    "rules",
+    "r_targets.md"
+  )))
 })
 
 test_that("use_theme(claude_r_analysis()) deploys settings.json and rules", {
@@ -26,7 +40,12 @@ test_that("use_theme(claude_r_analysis()) deploys settings.json and rules", {
   use_theme(claude_r_analysis())
 
   expect_true(fs::file_exists(file.path(tmp, ".claude", "settings.json")))
-  expect_true(fs::file_exists(file.path(tmp, ".claude", "rules", "r_analysis.md")))
+  expect_true(fs::file_exists(file.path(
+    tmp,
+    ".claude",
+    "rules",
+    "r_analysis.md"
+  )))
   expect_true(fs::file_exists(file.path(tmp, ".gitignore")))
 })
 
@@ -38,7 +57,12 @@ test_that("use_theme(claude_r_targets()) deploys settings.json and rules", {
   use_theme(claude_r_targets())
 
   expect_true(fs::file_exists(file.path(tmp, ".claude", "settings.json")))
-  expect_true(fs::file_exists(file.path(tmp, ".claude", "rules", "r_targets.md")))
+  expect_true(fs::file_exists(file.path(
+    tmp,
+    ".claude",
+    "rules",
+    "r_targets.md"
+  )))
   expect_true(fs::file_exists(file.path(tmp, ".gitignore")))
 })
 
@@ -66,5 +90,10 @@ test_that("composition works: r_analysis() + claude_r_analysis()", {
 
   expect_true(fs::file_exists(file.path(tmp, "main.R")))
   expect_true(fs::file_exists(file.path(tmp, ".claude", "settings.json")))
-  expect_true(fs::file_exists(file.path(tmp, ".claude", "rules", "r_analysis.md")))
+  expect_true(fs::file_exists(file.path(
+    tmp,
+    ".claude",
+    "rules",
+    "r_analysis.md"
+  )))
 })

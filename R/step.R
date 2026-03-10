@@ -18,7 +18,9 @@ step_file <- function(source, dest, strategy = "overwrite", data = NULL) {
   validate_strategy(strategy)
 
   if (!fs::is_absolute_path(source)) {
-    cli::cli_abort("{.arg source} must be an absolute path, not {.path {source}}.")
+    cli::cli_abort(
+      "{.arg source} must be an absolute path, not {.path {source}}."
+    )
   }
 
   if (fs::is_absolute_path(dest)) {
@@ -120,8 +122,11 @@ step_run <- function(fn, ..., .label = NULL) {
 valid_strategies <- c("overwrite", "skip", "union", "append", "merge_json")
 
 validate_strategy <- function(strategy) {
-  if (!is.character(strategy) || length(strategy) != 1L ||
-      !strategy %in% valid_strategies) {
+  if (
+    !is.character(strategy) ||
+      length(strategy) != 1L ||
+      !strategy %in% valid_strategies
+  ) {
     cli::cli_abort(
       "{.arg strategy} must be one of {.or {.val {valid_strategies}}}, not {.val {strategy}}."
     )
@@ -141,7 +146,9 @@ validate_data <- function(data) {
   }
   nms <- names(data)
   if (is.null(nms) || any(nms == "")) {
-    cli::cli_abort("{.arg data} must be a fully named list (all elements must have names).")
+    cli::cli_abort(
+      "{.arg data} must be a fully named list (all elements must have names)."
+    )
   }
   invisible(data)
 }

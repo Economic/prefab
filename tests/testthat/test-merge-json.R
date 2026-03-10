@@ -46,7 +46,11 @@ test_that("merge_json handles hooks merging", {
   result <- merge_json_tree(source, dest)
 
   # Both matcher entries should be present
-  matchers <- vapply(result$hooks$PostToolUse, function(x) x$matcher, character(1))
+  matchers <- vapply(
+    result$hooks$PostToolUse,
+    function(x) x$matcher,
+    character(1)
+  )
   expect_true("Bash" %in% matchers)
   expect_true("Edit|Write" %in% matchers)
 })

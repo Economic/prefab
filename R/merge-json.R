@@ -9,10 +9,14 @@
 #' @noRd
 merge_json_tree <- function(source_list, dest_list) {
   if (!is_json_object(source_list)) {
-    cli::cli_abort("Source JSON must be an object (named list), not an array or scalar.")
+    cli::cli_abort(
+      "Source JSON must be an object (named list), not an array or scalar."
+    )
   }
   if (!is_json_object(dest_list)) {
-    cli::cli_abort("Dest JSON must be an object (named list), not an array or scalar.")
+    cli::cli_abort(
+      "Dest JSON must be an object (named list), not an array or scalar."
+    )
   }
 
   merged <- dest_list
@@ -69,10 +73,16 @@ is_json_object <- function(x) {
 #' Check if all elements of an array are objects with a "matcher" field
 #' @noRd
 is_matcher_array <- function(arr) {
-  if (length(arr) == 0) return(TRUE)
-  all(vapply(arr, function(el) {
-    is_json_object(el) && "matcher" %in% names(el)
-  }, logical(1)))
+  if (length(arr) == 0) {
+    return(TRUE)
+  }
+  all(vapply(
+    arr,
+    function(el) {
+      is_json_object(el) && "matcher" %in% names(el)
+    },
+    logical(1)
+  ))
 }
 
 #' Merge two JSON arrays via union semantics
@@ -111,7 +121,7 @@ merge_by_matcher <- function(src_arr, dest_arr) {
 
   # Build index of dest matchers
 
-dest_matchers <- vapply(result, function(el) el$matcher, character(1))
+  dest_matchers <- vapply(result, function(el) el$matcher, character(1))
 
   for (src_el in src_arr) {
     src_matcher <- src_el$matcher

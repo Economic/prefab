@@ -11,7 +11,8 @@
 apply_strategy <- function(lines, dest_path, strategy) {
   fs::dir_create(fs::path_dir(dest_path))
 
-  switch(strategy,
+  switch(
+    strategy,
     overwrite = strategy_overwrite(lines, dest_path),
     skip = strategy_skip(lines, dest_path),
     append = strategy_append(lines, dest_path),
@@ -88,7 +89,14 @@ strategy_merge_json <- function(lines, dest_path) {
 #' @param project_root Absolute path to project root.
 #' @return Invisible NULL.
 #' @noRd
-deploy_file <- function(source, dest, strategy, data, auto_context, project_root) {
+deploy_file <- function(
+  source,
+  dest,
+  strategy,
+  data,
+  auto_context,
+  project_root
+) {
   if (!(fs::file_exists(source) || fs::dir_exists(source))) {
     cli::cli_abort("Source path does not exist: {.path {source}}")
   }
@@ -98,13 +106,22 @@ deploy_file <- function(source, dest, strategy, data, auto_context, project_root
   if (fs::is_dir(source)) {
     # Directory source
     if (!is.null(data)) {
-      cli::cli_abort("Template rendering (data) is not supported for directory sources.")
+      cli::cli_abort(
+        "Template rendering (data) is not supported for directory sources."
+      )
     }
     if (fs::file_exists(resolved_dest) && !fs::is_dir(resolved_dest)) {
-      cli::cli_abort("Cannot deploy directory to {.path {dest}}: destination exists as a file.")
+      cli::cli_abort(
+        "Cannot deploy directory to {.path {dest}}: destination exists as a file."
+      )
     }
 
-    source_files <- fs::dir_ls(source, type = "file", recurse = TRUE, follow = TRUE)
+    source_files <- fs::dir_ls(
+      source,
+      type = "file",
+      recurse = TRUE,
+      follow = TRUE
+    )
     for (src_file in source_files) {
       rel_path <- fs::path_rel(src_file, source)
       file_dest <- fs::path(dest, rel_path)
@@ -120,7 +137,9 @@ deploy_file <- function(source, dest, strategy, data, auto_context, project_root
   } else {
     # File source
     if (fs::dir_exists(resolved_dest)) {
-      cli::cli_abort("Cannot deploy file to {.path {dest}}: destination exists as a directory.")
+      cli::cli_abort(
+        "Cannot deploy file to {.path {dest}}: destination exists as a directory."
+      )
     }
 
     content <- readLines(source, warn = FALSE)

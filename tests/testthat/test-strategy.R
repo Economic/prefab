@@ -116,7 +116,14 @@ test_that("apply_strategy errors on invalid strategy", {
 test_that("deploy_file errors when source does not exist", {
   tmp <- withr::local_tempdir()
   expect_error(
-    deploy_file("/nonexistent/file.txt", "out.txt", "overwrite", NULL, list(), tmp),
+    deploy_file(
+      "/nonexistent/file.txt",
+      "out.txt",
+      "overwrite",
+      NULL,
+      list(),
+      tmp
+    ),
     "does not exist"
   )
 })
@@ -238,7 +245,10 @@ test_that("directory source deploys all files recursively", {
   deploy_file(src_dir, "dest", "overwrite", NULL, list(), project)
 
   expect_equal(readLines(file.path(project, "dest", "root.txt")), "root file")
-  expect_equal(readLines(file.path(project, "dest", "sub", "nested.txt")), "nested file")
+  expect_equal(
+    readLines(file.path(project, "dest", "sub", "nested.txt")),
+    "nested file"
+  )
 })
 
 test_that("directory deployment leaves pre-existing files untouched", {
@@ -258,7 +268,10 @@ test_that("directory deployment leaves pre-existing files untouched", {
 
   # Pre-existing file should be untouched
 
-  expect_equal(readLines(file.path(project, "dest", "existing.txt")), "existing")
+  expect_equal(
+    readLines(file.path(project, "dest", "existing.txt")),
+    "existing"
+  )
   # New file should be deployed
   expect_equal(readLines(file.path(project, "dest", "new.txt")), "new file")
 })

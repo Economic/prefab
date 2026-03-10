@@ -13,14 +13,34 @@ test_that("r_targets() returns valid prefab_theme", {
 })
 
 test_that("r_analysis() source files exist in inst/", {
-  expect_true(fs::file_exists(fs::path_package("prefab", "r_analysis", "main.R")))
-  expect_true(fs::file_exists(fs::path_package("prefab", "r_analysis", "README.md")))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "r_analysis",
+    "main.R"
+  )))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "r_analysis",
+    "README.md"
+  )))
 })
 
 test_that("r_targets() source files exist in inst/", {
-  expect_true(fs::file_exists(fs::path_package("prefab", "r_targets", "_targets.R")))
-  expect_true(fs::file_exists(fs::path_package("prefab", "r_targets", "packages.R")))
-  expect_true(fs::file_exists(fs::path_package("prefab", "r_targets", "README.md")))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "r_targets",
+    "_targets.R"
+  )))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "r_targets",
+    "packages.R"
+  )))
+  expect_true(fs::file_exists(fs::path_package(
+    "prefab",
+    "r_targets",
+    "README.md"
+  )))
 })
 
 test_that("use_theme(r_analysis()) deploys main.R and README.md", {

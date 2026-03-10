@@ -38,7 +38,18 @@ build_auto_context <- function(project_root) {
 #' @noRd
 render_template <- function(content, data, auto_context) {
   merged <- utils::modifyList(auto_context, data)
-  vapply(content, function(line) {
-    as.character(glue::glue_data(merged, line, .open = "{{", .close = "}}", .envir = emptyenv()))
-  }, character(1), USE.NAMES = FALSE)
+  vapply(
+    content,
+    function(line) {
+      as.character(glue::glue_data(
+        merged,
+        line,
+        .open = "{{",
+        .close = "}}",
+        .envir = emptyenv()
+      ))
+    },
+    character(1),
+    USE.NAMES = FALSE
+  )
 }

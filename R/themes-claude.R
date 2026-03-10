@@ -11,7 +11,11 @@
 claude_r_analysis <- function() {
   from_prefab <- from_package("prefab")
   new_theme(
-    from_prefab("claude/settings.json", ".claude/settings.json", strategy = "merge_json"),
+    from_prefab(
+      "claude/settings.json",
+      ".claude/settings.json",
+      strategy = "merge_json"
+    ),
     from_prefab("claude/rules/r_analysis.md", ".claude/rules/r_analysis.md"),
     step_text(gitignore_lines, ".gitignore", strategy = "union")
   )
@@ -30,7 +34,11 @@ claude_r_analysis <- function() {
 claude_r_targets <- function() {
   from_prefab <- from_package("prefab")
   new_theme(
-    from_prefab("claude/settings.json", ".claude/settings.json", strategy = "merge_json"),
+    from_prefab(
+      "claude/settings.json",
+      ".claude/settings.json",
+      strategy = "merge_json"
+    ),
     from_prefab("claude/rules/r_targets.md", ".claude/rules/r_targets.md"),
     step_text(gitignore_lines, ".gitignore", strategy = "union")
   )

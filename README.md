@@ -1,4 +1,4 @@
-# prefab
+# prefab <a href="https://economic.github.io/prefab"><img src="man/figures/logo.png" align="right" height="139" alt="prefab website" /></a>
 
 Composable Project Scaffolding for R
 

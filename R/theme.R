@@ -16,7 +16,12 @@ new_theme <- function(...) {
   # Validate remaining args are step objects
 
   for (i in seq_along(args)) {
-    if (!inherits(args[[i]], c("prefab_step_file", "prefab_step_text", "prefab_step_run"))) {
+    if (
+      !inherits(
+        args[[i]],
+        c("prefab_step_file", "prefab_step_text", "prefab_step_run")
+      )
+    ) {
       cli::cli_abort(
         "Argument {i} to {.fn new_theme} must be a step object ({.cls prefab_step_file}, {.cls prefab_step_text}, or {.cls prefab_step_run})."
       )
@@ -51,7 +56,9 @@ new_theme <- function(...) {
   }
 
   if (!inherits(e2, "prefab_theme")) {
-    cli::cli_abort("Can only add a {.cls prefab_theme} to a {.cls prefab_theme}.")
+    cli::cli_abort(
+      "Can only add a {.cls prefab_theme} to a {.cls prefab_theme}."
+    )
   }
 
   new_steps <- c(e1$steps, e2$steps)
@@ -68,19 +75,25 @@ print.prefab_theme <- function(x, ...) {
 
   for (step in x$steps) {
     if (inherits(step, "prefab_step_file")) {
-      cli::cli_text("
+      cli::cli_text(
+        "
         {.field file}
         {.path {step$dest}}
-        {.emph {step$strategy}}")
+        {.emph {step$strategy}}"
+      )
     } else if (inherits(step, "prefab_step_text")) {
-      cli::cli_text("
+      cli::cli_text(
+        "
         {.field text}
         {.path {step$dest}}
-        {.emph {step$strategy}}")
+        {.emph {step$strategy}}"
+      )
     } else if (inherits(step, "prefab_step_run")) {
-      cli::cli_text("
+      cli::cli_text(
+        "
         {.field run}
-        {step$label}()")
+        {step$label}()"
+      )
     }
   }
 
@@ -113,8 +126,12 @@ theme_code <- function(theme) {
 
   code <- paste0(
     "new_theme(\n",
-    paste0("
-  ", step_codes, collapse = ",\n"),
+    paste0(
+      "
+  ",
+      step_codes,
+      collapse = ",\n"
+    ),
     "\n)"
   )
 
@@ -141,11 +158,19 @@ format_step_file_code <- function(step) {
     # Reconstruct source helper call
     if (prov$helper == "from_package") {
       source_expr <- paste0(
-        'from_package("', prov$package, '")("', prov$relative_path, '"'
+        'from_package("',
+        prov$package,
+        '")("',
+        prov$relative_path,
+        '"'
       )
     } else if (prov$helper == "from_dir") {
       source_expr <- paste0(
-        'from_dir("', prov$path, '")("', prov$relative_path, '"'
+        'from_dir("',
+        prov$path,
+        '")("',
+        prov$relative_path,
+        '"'
       )
     }
 
