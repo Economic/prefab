@@ -1,11 +1,10 @@
 # prefab <a href="https://economic.github.io/prefab"><img src="man/figures/logo.png" align="right" height="139" alt="prefab website" /></a>
 
-Composable Project Scaffolding for R
-
-prefab provides an opinionated theme system for setting up R projects. Themes
-are ordered lists of steps (files, text, functions) that you compose with `+`
-and apply in one call. Ships with themes for analysis projects, targets
-workflows, and Claude Code agent configuration.
+prefab provides an opinionated theme system for setting up R projects. A theme
+is a function that returns an ordered list of steps that deploy
+files, inject text, or run functions. Because themes are functions, they take
+parameters, compose with `+`, and ship in packages. Nothing touches the file
+system until you apply a theme with `use_theme()` or `create_project()`.
 
 ## Installation
 
@@ -100,5 +99,13 @@ theme_code(r_analysis())
 #> )
 ```
 
+## Acknowledgments 
+
+This package draws heavily on ideas from the R packages:
+
+  - [starter](https://www.danieldsjoberg.com/starter/) by Daniel D. Sjoberg
+  - [usethis](https://usethis.r-lib.org/) by Hadley Wickham, Jennifer Bryan, Malcolm Barrett, and Andy Teucher.
+
 ## License
 MIT
+

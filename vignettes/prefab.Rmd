@@ -2,7 +2,7 @@
 title: "Building custom themes with prefab"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Building custom themes with prefab}
+  %\VignetteIndexEntry{prefab}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,18 +11,34 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-prefab scaffolds projects by applying **themes** -- ordered lists of steps that
-deploy files, inject text, or run functions. This vignette covers using the
-built-in themes, composing them, and writing your own.
+## Themes are functions
 
-## Using built-in themes
+A prefab theme is a function that returns a `prefab_theme` object -- an ordered
+list of steps. Calling a theme shows you an outline of the steps; nothing happens to the
+file system until you pass the theme to `use_theme()` or
+`create_project()`.
 
-Apply a theme to an existing project with `use_theme()`, or start a new project
-with `create_project()`:
-
-```{r use-builtin, eval = FALSE}
+```{r inspect, eval = FALSE}
 library(prefab)
 
+# Calling r_analysis() returns a theme object -- it does not write any files
+r_analysis()
+#> <theme> 3 steps
+#> * file → main.R (skip)
+#> * file → README.md (skip)
+#> * text → .gitignore (union)
+#> ℹ Apply with `use_theme()` or `create_project()`
+```
+
+Because themes are functions, they can take parameters, compose with `+`, and
+ship in packages.
+
+## Applying themes
+
+Pass a theme to `use_theme()` (existing project) or `create_project()` (new
+directory):
+
+```{r apply, eval = FALSE}
 use_theme(r_analysis())
 create_project("~/projects/my-targets-project", r_targets())
 ```
@@ -45,54 +61,16 @@ create_project("~/projects/new-analysis", r_targets() + claude_r_targets())
 Order matters: later steps can override earlier ones when the merge strategy
 allows it (e.g., two themes deploying the same file with `"overwrite"`).
 
-## Inline themes
+## Writing your own theme
 
-For quick customization, wrap `step_text()` or `step_run()` in `new_theme()`:
+A theme function is any R function that returns a `prefab_theme` via
+`new_theme()`. The three step types are:
 
-```{r inline, eval = FALSE}
-extras <- new_theme(
-  step_text(c("*.csv", "data/"), ".gitignore", strategy = "union"),
-  step_run(fs::dir_create, "data", .label = "fs::dir_create")
-)
-use_theme(r_analysis() + extras)
-```
+- `step_file(source, dest)` -- deploy a file
+- `step_text(content, dest)` -- deploy inline text
+- `step_run(fn, ...)` -- execute a function for its side effects
 
-`NULL` arguments are silently dropped, enabling conditional steps:
-
-```{r conditional, eval = FALSE}
-my_theme <- function(use_renv = FALSE) {
-  new_theme(
-    step_text(c("*.csv"), ".gitignore", strategy = "union"),
-    if (use_renv) step_run(renv::init, .label = "renv::init")
-  )
-}
-```
-
-## Custom themes with `from_dir()`
-
-`from_dir()` creates a step-builder that resolves source paths relative to a
-local directory:
-
-```{r from-dir, eval = FALSE}
-from_templates <- from_dir("~/my-templates")
-
-my_theme <- new_theme(
-  from_templates("header.md", "README.md", strategy = "skip"),
-  from_templates("gitignore", ".gitignore", strategy = "union"),
-  from_templates("Makefile", "Makefile")
-)
-use_theme(r_analysis() + my_theme)
-```
-
-The directory path is resolved to absolute at creation time, so later working
-directory changes do not affect it.
-
-## Theme functions
-
-A theme function is any R function that returns a `prefab_theme`. Parameters
-let you customize what gets deployed:
-
-```{r theme-fn, eval = FALSE}
+```{r custom, eval = FALSE}
 my_analysis <- function(use_data_dir = TRUE, extra_ignores = character(0)) {
   from_templates <- from_dir("~/my-templates")
   ignore_lines <- c(".Rproj.user", ".Rhistory", ".RData", extra_ignores)
@@ -106,6 +84,29 @@ my_analysis <- function(use_data_dir = TRUE, extra_ignores = character(0)) {
 
 use_theme(my_analysis(extra_ignores = "*.csv") + claude_r_analysis())
 ```
+
+Because themes are just functions, parameters give you conditional behavior
+for free. `NULL` arguments to `new_theme()` are silently dropped, so
+`if (cond) step(...)` works naturally.
+
+### Source helpers
+
+`from_dir()` and `from_package()` create step-builders that resolve source
+paths relative to a directory or an installed R package:
+
+```{r source-helpers, eval = FALSE}
+# Resolve from a local directory
+from_templates <- from_dir("~/my-templates")
+from_templates("header.md", "README.md", strategy = "skip")
+
+# Resolve from an installed package's inst/ directory
+from_prefab <- from_package("prefab")
+from_prefab("r_analysis/main.R", "main.R", strategy = "skip")
+```
+
+`from_dir()` resolves its path to absolute at creation time, so later working
+directory changes do not affect it. `from_package()` works with both installed
+packages and `devtools::load_all()`.
 
 ## Distributing themes via a package
 
@@ -125,7 +126,6 @@ my_org_analysis <- function() {
 }
 ```
 
-`from_package()` works with both installed packages and `devtools::load_all()`.
 Users compose your themes with any others:
 
 ```{r from-package-use, eval = FALSE}
