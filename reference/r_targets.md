@@ -17,10 +17,11 @@ A `prefab_theme` object.
 
 ``` r
 r_targets()
-#> ── Theme (5 steps) ─────────────────────────────────────────────────────────────
-#> file _targets.R skip
-#> file packages.R skip
-#> file README.md skip
-#> text .gitignore union
-#> run fs::dir_create()
+#> <theme> 5 steps
+#> • file → _targets.R (skip)
+#> • file → packages.R (skip)
+#> • file → README.md (skip)
+#> • text → .gitignore (union)
+#> • run → fs::dir_create()
+#> ℹ Apply with `use_theme()` or `create_project()`
 ```

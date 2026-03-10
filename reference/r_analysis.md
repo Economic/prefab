@@ -17,8 +17,9 @@ A `prefab_theme` object.
 
 ``` r
 r_analysis()
-#> ── Theme (3 steps) ─────────────────────────────────────────────────────────────
-#> file main.R skip
-#> file README.md skip
-#> text .gitignore union
+#> <theme> 3 steps
+#> • file → main.R (skip)
+#> • file → README.md (skip)
+#> • text → .gitignore (union)
+#> ℹ Apply with `use_theme()` or `create_project()`
 ```
