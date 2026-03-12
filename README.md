@@ -38,6 +38,7 @@ use_theme(claude_r_analysis())
 | `r_analysis()` | `main.R`, `README.md`, `.gitignore` |
 | `r_targets()` | `_targets.R`, `packages.R`, `README.md`, `R/` dir, `.gitignore` |
 | `claude_r_analysis()` | Claude Code settings and rules for analysis projects |
+| `claude_r_package()` | Claude Code settings and rules for R packages |
 | `claude_r_targets()` | Claude Code settings and rules for targets projects |
 
 ## Composition
