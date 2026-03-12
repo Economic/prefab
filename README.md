@@ -104,6 +104,7 @@ theme_code(r_analysis())
 This package draws heavily on ideas from the R packages:
 
   - [starter](https://www.danieldsjoberg.com/starter/) by Daniel D. Sjoberg
+  - [tflow](https://milesmcbain.r-universe.dev/tflow) by Miles McBain
   - [usethis](https://usethis.r-lib.org/) by Hadley Wickham, Jennifer Bryan, Malcolm Barrett, and Andy Teucher.
 
 ## License

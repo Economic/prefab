@@ -3,6 +3,7 @@
 S3method("+",prefab_theme)
 S3method(print,prefab_theme)
 export(claude_r_analysis)
+export(claude_r_package)
 export(claude_r_targets)
 export(create_project)
 export(from_dir)

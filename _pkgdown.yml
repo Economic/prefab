@@ -24,4 +24,5 @@ reference:
       - r_targets
       - claude_r_analysis
       - claude_r_targets
+      - claude_r_package
 

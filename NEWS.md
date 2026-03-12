@@ -8,4 +8,4 @@
 * Template rendering with `{{var}}` syntax via glue.
 * Public API: `use_theme()`, `create_project()`, `theme_code()`.
 * Pre-set project themes: `r_analysis()`, `r_targets()`.
-* Pre-set Claude Code agent themes: `claude_r_analysis()`, `claude_r_targets()`.
+* Pre-set Claude Code agent themes: `claude_r_analysis()`, `claude_r_targets()`, `claude_r_package()`.
