@@ -34,3 +34,5 @@
   : Claude Code configuration theme for R analysis projects
 - [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
   : Claude Code configuration theme for R targets projects
+- [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)
+  : Claude Code configuration theme for R packages

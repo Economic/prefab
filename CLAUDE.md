@@ -92,9 +92,11 @@ check.
 
 ## Future work
 
-- **Deferred themes.** `claude_r_package()`, `r_package()`, and
-  `epi_economics_data()` are designed but deferred from the initial
-  release. See `plans/2026-03-06-included-themes.md` for details.
+- **Deferred themes.**
+  [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md),
+  `r_package()`, and `epi_economics_data()` are designed but deferred
+  from the initial release. See `plans/2026-03-06-included-themes.md`
+  for details.
 - **GitHub source helper.** A source helper that downloads files from a
   GitHub repository could enable organizations to maintain a central
   config repo or pull skills from public repos without requiring an R

@@ -119,6 +119,7 @@ This package draws heavily on ideas from the R packages:
 
 - [starter](https://www.danieldsjoberg.com/starter/) by Daniel D.
   Sjoberg
+- [tflow](https://milesmcbain.r-universe.dev/tflow) by Miles McBain
 - [usethis](https://usethis.r-lib.org/) by Hadley Wickham, Jennifer
   Bryan, Malcolm Barrett, and Andy Teucher.
 
@@ -162,6 +163,8 @@ MIT
   : Claude Code configuration theme for R analysis projects
 - [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
   : Claude Code configuration theme for R targets projects
+- [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)
+  : Claude Code configuration theme for R packages
 
 # Articles
 

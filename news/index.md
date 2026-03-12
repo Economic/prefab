@@ -25,4 +25,5 @@
   [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md).
 - Pre-set Claude Code agent themes:
   [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md),
-  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md).
+  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md),
+  [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md).
