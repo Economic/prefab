@@ -41,6 +41,7 @@ use_theme(claude_r_analysis())
 | [`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md)               | `main.R`, `README.md`, `.gitignore`                             |
 | [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md)                 | `_targets.R`, `packages.R`, `README.md`, `R/` dir, `.gitignore` |
 | [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md) | Claude Code settings and rules for analysis projects            |
+| [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)   | Claude Code settings and rules for R packages                   |
 | [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)   | Claude Code settings and rules for targets projects             |
 
 ## Composition
