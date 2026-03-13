@@ -34,3 +34,4 @@ Suggests:
     rstudioapi,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/Needs/website: economic/epitemplate

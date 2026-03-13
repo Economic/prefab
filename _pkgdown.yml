@@ -1,6 +1,6 @@
 url: https://economic.github.io/prefab
 template:
-  bootstrap: 5
+  package: epitemplate
 
 reference:
   - title: "Apply themes"
