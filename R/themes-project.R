@@ -47,6 +47,6 @@ r_targets <- function() {
       data = list()
     ),
     step_text(gitignore_lines, ".gitignore", strategy = "union"),
-    step_run(fs::dir_create, "R", .label = "fs::dir_create")
+    step_run(fs::dir_create, "R", .label = "fs::dir_create('R')")
   )
 }

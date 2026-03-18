@@ -28,7 +28,7 @@ execute_theme <- function(theme, project_root) {
         } else if (inherits(step, "prefab_step_text")) {
           deploy_text(step$content, step$dest, step$strategy, project_root)
         } else if (inherits(step, "prefab_step_run")) {
-          cli::cli_alert_success("Running {step$label}()")
+          cli::cli_alert_success("Running {step$label}")
           withr::with_dir(project_root, do.call(step$fn, step$args))
         }
       },

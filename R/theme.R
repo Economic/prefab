@@ -74,25 +74,17 @@ print.prefab_theme <- function(x, ...) {
   cli::cli_text("<theme> {n} step{?s}")
 
   for (step in x$steps) {
-    if (inherits(step, "prefab_step_file")) {
+    if (inherits(step, "prefab_step_file") ||
+      inherits(step, "prefab_step_text")) {
       cli::cli_bullets(c(
-        "*" = "{.field file} \\
-        {cli::symbol$arrow_right} \\
-        {.path {step$dest}} \\
-        {.emph ({step$strategy})}"
-      ))
-    } else if (inherits(step, "prefab_step_text")) {
-      cli::cli_bullets(c(
-        "*" = "{.field text} \\
-        {cli::symbol$arrow_right} \\
-        {.path {step$dest}} \\
+        "*" = "Writing {.path {step$dest}} \\
         {.emph ({step$strategy})}"
       ))
     } else if (inherits(step, "prefab_step_run")) {
       cli::cli_bullets(c(
         "*" = "{.field run}
         {cli::symbol$arrow_right} \\
-        {step$label}()"
+        {step$label}"
       ))
     }
   }

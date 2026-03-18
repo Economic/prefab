@@ -151,14 +151,14 @@ deploy_file <- function(
     # CLI output
     dest_exists <- fs::file_exists(resolved_dest)
     if (strategy == "skip" && dest_exists) {
-      cli::cli_alert_info("Skipping {dest} (already exists)")
+      cli::cli_alert_info("Skipping {.path {dest}} (already exists)")
       return(invisible())
     }
 
     if (dest_exists) {
-      cli::cli_alert_success("Writing {dest} ({strategy})")
+      cli::cli_alert_success("Writing {.path {dest}} ({strategy})")
     } else {
-      cli::cli_alert_success("Writing {dest} (new)")
+      cli::cli_alert_success("Writing {.path {dest}} (new)")
     }
 
     apply_strategy(content, resolved_dest, strategy)
@@ -180,14 +180,14 @@ deploy_text <- function(content, dest, strategy, project_root) {
 
   dest_exists <- fs::file_exists(resolved_dest)
   if (strategy == "skip" && dest_exists) {
-    cli::cli_alert_info("Skipping {dest} (already exists)")
+    cli::cli_alert_info("Skipping {.path {dest}} (already exists)")
     return(invisible())
   }
 
   if (dest_exists) {
-    cli::cli_alert_success("Writing {dest} ({strategy})")
+    cli::cli_alert_success("Writing {.path {dest}} ({strategy})")
   } else {
-    cli::cli_alert_success("Writing {dest} (new)")
+    cli::cli_alert_success("Writing {.path {dest}} (new)")
   }
 
   apply_strategy(content, resolved_dest, strategy)
