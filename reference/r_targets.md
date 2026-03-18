@@ -18,10 +18,10 @@ A `prefab_theme` object.
 ``` r
 r_targets()
 #> <theme> 5 steps
-#> • file → _targets.R (skip)
-#> • file → packages.R (skip)
-#> • file → README.md (skip)
-#> • text → .gitignore (union)
-#> • run → fs::dir_create()
+#> • Writing _targets.R (skip)
+#> • Writing packages.R (skip)
+#> • Writing README.md (skip)
+#> • Writing .gitignore (union)
+#> • run → fs::dir_create('R')
 #> ℹ Apply with `use_theme()` or `create_project()`
 ```

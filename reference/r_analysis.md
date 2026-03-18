@@ -18,8 +18,8 @@ A `prefab_theme` object.
 ``` r
 r_analysis()
 #> <theme> 3 steps
-#> • file → main.R (skip)
-#> • file → README.md (skip)
-#> • text → .gitignore (union)
+#> • Writing main.R (skip)
+#> • Writing README.md (skip)
+#> • Writing .gitignore (union)
 #> ℹ Apply with `use_theme()` or `create_project()`
 ```
