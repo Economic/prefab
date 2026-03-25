@@ -4,7 +4,11 @@
 \alias{r_analysis}
 \title{R analysis project theme}
 \usage{
-r_analysis()
+r_analysis(data_dirs = TRUE)
+}
+\arguments{
+\item{data_dirs}{Logical. If \code{TRUE} (default), creates directories
+\code{./data_raw} and \code{./data_processed}.}
 }
 \value{
 A \code{prefab_theme} object.

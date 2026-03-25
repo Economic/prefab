@@ -144,6 +144,9 @@ deploy_file <- function(
 
     content <- readLines(source, warn = FALSE)
 
+    if (identical(data, "auto")) {
+      data <- list()
+    }
     if (!is.null(data)) {
       content <- render_template(content, data, auto_context)
     }

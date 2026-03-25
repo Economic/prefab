@@ -55,3 +55,39 @@ In dplyr-based joins use `by = join_by()` syntax, such as `by = join_by(a == b)`
 When possible avoid `group_by` and use the `.by` argument.
 
 Use `map_*()` instead of `sapply`.
+
+#### Column-wise operations
+
+Use `across()` for column-wise operations within a single `mutate()` call rather than a `for` loop:
+
+```r
+# Avoid
+for (col in income_cols) {
+  result <- result |> mutate(!!paste0("total_", col) := .data[[col]] * n)
+}
+
+# Prefer
+result_scaled <- result |>
+  mutate(across(all_of(income_cols), \(x) x * n, .names = "total_{.col}"))
+```
+
+When operations are more complex and `across()` becomes unwieldy, prefer pivoting to long format, computing, then pivoting back:
+
+```r
+result_scaled <- result |>
+  pivot_longer(all_of(income_cols), names_to = "col", values_to = "avg") |>
+  mutate(total = avg * n) |>
+  pivot_wider(names_from = col, values_from = c(avg, total))
+```
+
+#### Naming intermediate objects
+
+Give each distinct stage of an analysis a descriptive name. Do not reuse the same object name for different things; doing so makes it hard to inspect intermediate results and debug errors.
+
+```r
+# Avoid
+result <- compute_elderly(result)
+
+# Prefer: distinct names
+result_elderly  <- compute_elderly(result)
+```

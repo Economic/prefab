@@ -7,10 +7,12 @@ reference:
     contents:
       - use_theme
       - create_project
+      - load_themes
 
   - title: "Build themes"
     contents:
       - new_theme
+      - theme_from_dir
       - step_file
       - step_text
       - step_run

@@ -16,9 +16,10 @@ written by hand.}
 \item{strategy}{How to handle a pre-existing destination file. One of
 \code{"overwrite"}, \code{"skip"}, \code{"union"}, \code{"append"}, or \code{"merge_json"}.}
 
-\item{data}{\code{NULL} (default) for static file copy, or a named list of
-variables to interpolate into the file via \code{{{var}}} syntax before
-deploying.}
+\item{data}{\code{NULL} (default) for static file copy, \code{"auto"} to interpolate
+using only auto-discovered project variables (project_dir, package_name,
+year, date), or a named list of variables to interpolate into the file
+via \code{{{var}}} syntax before deploying.}
 }
 \value{
 A list with class \code{"prefab_step_file"}.

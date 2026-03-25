@@ -8,9 +8,10 @@
 #' @param dest Path to the destination, relative to the project root.
 #' @param strategy How to handle a pre-existing destination file. One of
 #'   `"overwrite"`, `"skip"`, `"union"`, `"append"`, or `"merge_json"`.
-#' @param data `NULL` (default) for static file copy, or a named list of
-#'   variables to interpolate into the file via `{{var}}` syntax before
-#'   deploying.
+#' @param data `NULL` (default) for static file copy, `"auto"` to interpolate
+#'   using only auto-discovered project variables (project_dir, package_name,
+#'   year, date), or a named list of variables to interpolate into the file
+#'   via `{{var}}` syntax before deploying.
 #'
 #' @return A list with class `"prefab_step_file"`.
 #' @export
@@ -138,8 +139,13 @@ validate_data <- function(data) {
   if (is.null(data)) {
     return(invisible(NULL))
   }
+  if (identical(data, "auto")) {
+    return(invisible(data))
+  }
   if (!is.list(data)) {
-    cli::cli_abort("{.arg data} must be {.code NULL} or a named list.")
+    cli::cli_abort(
+      '{.arg data} must be {.code NULL}, {.val auto}, or a named list.'
+    )
   }
   if (length(data) == 0L) {
     return(invisible(data))

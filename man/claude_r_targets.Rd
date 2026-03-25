@@ -4,7 +4,11 @@
 \alias{claude_r_targets}
 \title{Claude Code configuration theme for R targets projects}
 \usage{
-claude_r_targets()
+claude_r_targets(settings_json = TRUE)
+}
+\arguments{
+\item{settings_json}{Logical. If \code{TRUE} (default), merges the package
+\code{settings.json} into \code{.claude/settings.json}.}
 }
 \value{
 A \code{prefab_theme} object.

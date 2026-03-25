@@ -3,19 +3,24 @@
 #' Creates a theme that deploys Claude Code agent settings and rules for an
 #' R analysis project.
 #'
+#' @param settings_json Logical. If `TRUE` (default), merges the package
+#'   `settings.json` into `.claude/settings.json`.
 #' @return A `prefab_theme` object.
 #' @export
 #'
 #' @examples
 #' claude_r_analysis()
-claude_r_analysis <- function() {
+claude_r_analysis <- function(settings_json = TRUE) {
   from_prefab <- from_package("prefab")
-  new_theme(
+  settings_step <- if (settings_json) {
     from_prefab(
       "claude/settings.json",
       ".claude/settings.json",
       strategy = "merge_json"
-    ),
+    )
+  }
+  new_theme(
+    settings_step,
     from_prefab("claude/rules/r_analysis.md", ".claude/rules/r_analysis.md"),
     step_text(gitignore_lines, ".gitignore", strategy = "union")
   )
@@ -26,19 +31,24 @@ claude_r_analysis <- function() {
 #' Creates a theme that deploys Claude Code agent settings and rules for an
 #' R targets project.
 #'
+#' @param settings_json Logical. If `TRUE` (default), merges the package
+#'   `settings.json` into `.claude/settings.json`.
 #' @return A `prefab_theme` object.
 #' @export
 #'
 #' @examples
 #' claude_r_targets()
-claude_r_targets <- function() {
+claude_r_targets <- function(settings_json = TRUE) {
   from_prefab <- from_package("prefab")
-  new_theme(
+  settings_step <- if (settings_json) {
     from_prefab(
       "claude/settings.json",
       ".claude/settings.json",
       strategy = "merge_json"
-    ),
+    )
+  }
+  new_theme(
+    settings_step,
     from_prefab("claude/rules/r_targets.md", ".claude/rules/r_targets.md"),
     from_prefab(
       "claude/rules/r_analysis.md",

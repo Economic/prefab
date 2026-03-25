@@ -74,8 +74,10 @@ print.prefab_theme <- function(x, ...) {
   cli::cli_text("<theme> {n} step{?s}")
 
   for (step in x$steps) {
-    if (inherits(step, "prefab_step_file") ||
-      inherits(step, "prefab_step_text")) {
+    if (
+      inherits(step, "prefab_step_file") ||
+        inherits(step, "prefab_step_text")
+    ) {
       cli::cli_bullets(c(
         "*" = "Writing {.path {step$dest}} \\
         {.emph ({step$strategy})}"
