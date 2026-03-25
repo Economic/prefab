@@ -13,7 +13,7 @@ or
 
 ``` r
 install.packages(
-  "prefab", 
+  "prefab",
   repos = c("https://economic.r-universe.dev", getOption("repos"))
 )
 ```
@@ -26,93 +26,112 @@ Create a new project with scaffolding and Claude Code config:
 library(prefab)
 
 create_project("~/projects/my-analysis", r_analysis() + claude_r_analysis())
+#> ✔ Running fs::dir_create('data_raw')
+#> ✔ Running fs::dir_create('data_processed')
+#> ✔ Writing 'main.R' (new)
+#> ✔ Writing 'README.md' (new)
+#> ✔ Writing '.gitignore' (new)
+#> ✔ Writing '.claude/settings.json' (new)
+#> ✔ Writing '.claude/rules/r_analysis.md' (new)
+#> ✔ Writing '.gitignore' (union)
 ```
 
 Add a theme to an existing project:
 
 ``` r
 use_theme(claude_r_analysis())
+#> ✔ Writing '.claude/settings.json' (new)
+#> ✔ Writing '.claude/rules/r_analysis.md' (new)
+#> ✔ Writing '.gitignore' (new)
 ```
 
 ## Built-in themes
 
-| Theme                                                                                     | Description                                                     |
-|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| [`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md)               | `main.R`, `README.md`, `.gitignore`                             |
-| [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md)                 | `_targets.R`, `packages.R`, `README.md`, `R/` dir, `.gitignore` |
-| [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md) | Claude Code settings and rules for analysis projects            |
-| [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)   | Claude Code settings and rules for R packages                   |
-| [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)   | Claude Code settings and rules for targets projects             |
+| Theme                                                                                     | Description                                                         |
+|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| [`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md)               | `main.R`, `README.md`, `.gitignore`, `data_raw/`, `data_processed/` |
+| [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md)                 | `_targets.R`, `packages.R`, `README.md`, `R/` dir, `.gitignore`     |
+| [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md) | Claude Code settings and rules for data analysis projects           |
+| [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)   | Claude Code settings and rules for R packages                       |
+| [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)   | Claude Code settings and rules for targets projects                 |
 
 ## Composition
 
 Themes compose with `+`. Steps execute left-to-right:
 
 ``` r
-# Project structure + agent config in one call
 theme <- r_targets() + claude_r_targets()
 
 create_project("my-project", theme)
+#> ✔ Writing '_targets.R' (new)
+#> ✔ Writing 'packages.R' (new)
+#> ✔ Writing 'README.md' (new)
+#> ✔ Writing '.gitignore' (new)
+#> ✔ Running fs::dir_create('R')
+#> ✔ Writing '.claude/settings.json' (new)
+#> ✔ Writing '.claude/rules/r_targets.md' (new)
+#> ✔ Writing '.claude/rules/r_analysis.md' (new)
+#> ✔ Writing '.gitignore' (union)
 ```
 
-## Custom themes
+## Building custom themes
 
-Build themes from steps using
+**From a directory of files.** Arrange template files in a folder and
+[`theme_from_dir()`](https://economic.github.io/prefab/reference/theme_from_dir.md)
+turns them into a theme. An optional `_prefab.yml` sidecar controls
+per-file merge strategies and template data.
+
+``` r
+my_theme <- theme_from_dir("~/my-extras")
+```
+
+**From steps.** Build themes programmatically with
 [`step_file()`](https://economic.github.io/prefab/reference/step_file.md),
 [`step_text()`](https://economic.github.io/prefab/reference/step_text.md),
-[`step_run()`](https://economic.github.io/prefab/reference/step_run.md),
-and source helpers like
-[`from_dir()`](https://economic.github.io/prefab/reference/from_dir.md):
+and
+[`step_run()`](https://economic.github.io/prefab/reference/step_run.md):
 
 ``` r
-from_shared <- from_dir("~/shared-config")
-
-my_theme <- new_theme(
-  from_shared("header.R", "R/header.R"),
-  step_text(c("*.csv", "*.rds"), ".gitignore", strategy = "union"),
-  step_run(fs::dir_create, "output", .label = "fs::dir_create")
-)
-
-# Combine with built-in themes
-create_project("my-project", r_analysis() + my_theme)
+my_theme <- function() {
+  new_theme(
+    step_file("~/my_themes/header.R", "R/header.R"),
+    step_text(c("*.csv", "*.rds"), ".gitignore", strategy = "union"),
+    step_run(fs::dir_create, "tables", .label = "fs::dir_create('tables')")
+  )
+}
 ```
 
-Source helpers resolve file paths from a directory
-([`from_dir()`](https://economic.github.io/prefab/reference/from_dir.md))
-or an installed R package
-([`from_package()`](https://economic.github.io/prefab/reference/from_package.md)).
-Files with `data = list(...)` support `{{var}}` template interpolation
-via glue.
-
-## Merge strategies
-
-Each step has a strategy that controls how it interacts with existing
-files:
-
-| Strategy       | Behaviour                           |
-|----------------|-------------------------------------|
-| `"overwrite"`  | Replace the file (default)          |
-| `"skip"`       | Do nothing if the file exists       |
-| `"union"`      | Merge lines, keeping unique entries |
-| `"append"`     | Add content to the end of the file  |
-| `"merge_json"` | Deep-merge JSON trees               |
-
-## Inspecting themes
-
-Use
-[`theme_code()`](https://economic.github.io/prefab/reference/theme_code.md)
-to print the R code that reproduces any theme. This is useful for
-understanding what a built-in theme does or as a starting point for
-customization:
+**By composing existing themes.** Combine and extend built-in or custom
+themes with `+`:
 
 ``` r
-theme_code(r_analysis())
-#> new_theme(
-#>   from_package("prefab")("r_analysis/main.R", "main.R", strategy = "skip"),
-#>   from_package("prefab")("r_analysis/README.md", "README.md", strategy = "skip", data = list()),
-#>   step_text(c(".Rproj.user", ".Rhistory", ".RData", ".DS_Store"), ".gitignore", strategy = "union")
-#> )
+my_theme <- r_analysis() + claude_r_analysis() + theme_from_dir("~/my-extras")
 ```
+
+## Sharing and re-using custom themes
+
+**Source a file.** Save theme functions in an external script and source
+them.
+[`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md)
+makes that easy: put themes in `~/.prefab-themes.R` (or set the
+`PREFAB_THEMES` environment variable) and call
+[`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md)
+to make them available.
+
+``` r
+load_themes()
+use_theme(my_analysis_theme())
+```
+
+**Ship in a package.** This package ships with several basic themes, and
+you can add themes (which are just functions) to your own package. Use
+[`from_package()`](https://economic.github.io/prefab/reference/from_package.md)
+to resolve template files from `inst/`. Best for sharing themes across
+an organization.
+
+More information on building and deploying themes is in the [Getting
+Started
+vignette](https://economic.github.io/prefab/articles/prefab.html).
 
 ## Acknowledgments
 
@@ -123,7 +142,3 @@ This package draws heavily on ideas from the R packages:
 - [tflow](https://milesmcbain.r-universe.dev/tflow) by Miles McBain
 - [usethis](https://usethis.r-lib.org/) by Hadley Wickham, Jennifer
   Bryan, Malcolm Barrett, and Andy Teucher.
-
-## License
-
-MIT

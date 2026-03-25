@@ -6,8 +6,15 @@ R targets project.
 ## Usage
 
 ``` r
-claude_r_targets()
+claude_r_targets(settings_json = TRUE)
 ```
+
+## Arguments
+
+- settings_json:
+
+  Logical. If `TRUE` (default), merges the package `settings.json` into
+  `.claude/settings.json`.
 
 ## Value
 

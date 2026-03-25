@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">prefab</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@
 <p>An R package providing opinionated project scaffolding via a composable theme system. A major use case is standardizing project setup and conventions for data analysis at the Economic Policy Institute (EPI), but the configurations are useful for any data analysis project.</p>
 <div class="section level2">
 <h2 id="status">Status<a class="anchor" aria-label="anchor" href="#status"></a></h2>
-<p>Development (0.0.0.9000). Core theme system is fully implemented. All exported functions are working with 232 passing tests and clean R CMD check.</p>
+<p>Development (0.0.0.9000). Core theme system is fully implemented. All exported functions are working with 244 passing tests and clean R CMD check.</p>
 </div>
 <div class="section level2">
 <h2 id="core-concepts">Core concepts<a class="anchor" aria-label="anchor" href="#core-concepts"></a></h2>
@@ -73,11 +73,15 @@
 <li>
 <code>new_theme(...)</code> — construct a theme from step objects</li>
 <li>
+<code>theme_from_dir(path, strategy = "overwrite")</code> — create a theme from a directory tree, with optional <code>_prefab.yml</code> sidecar</li>
+<li>
 <code>use_theme(theme)</code> — apply a theme to the current project</li>
 <li>
 <code>create_project(path, theme)</code> — create a directory and apply a theme</li>
 <li>
 <code>theme_code(theme)</code> — print the R code that reproduces a theme (for copy-paste customization)</li>
+<li>
+<code>load_themes(file = NULL)</code> — source custom theme definitions from a file (<code>PREFAB_THEMES</code> env var or <code>~/.prefab-themes.R</code>)</li>
 </ul></div>
 <div class="section level2">
 <h2 id="pre-set-themes">Pre-set themes<a class="anchor" aria-label="anchor" href="#pre-set-themes"></a></h2>
@@ -99,6 +103,8 @@
   execute.R               # execute_theme()
   use-theme.R             # use_theme()
   create-project.R        # create_project()
+  load-themes.R           # load_themes()
+  theme-from-dir.R        # theme_from_dir()
   themes-project.R        # r_analysis(), r_targets(), gitignore_lines
   themes-claude.R         # claude_r_analysis(), claude_r_targets()
 inst/

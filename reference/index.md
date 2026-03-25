@@ -6,11 +6,15 @@
   : Apply a theme to the current project
 - [`create_project()`](https://economic.github.io/prefab/reference/create_project.md)
   : Create a new project and apply a theme
+- [`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md)
+  : Load custom theme definitions
 
 ## Build themes
 
 - [`new_theme()`](https://economic.github.io/prefab/reference/new_theme.md)
   : Create a theme from steps
+- [`theme_from_dir()`](https://economic.github.io/prefab/reference/theme_from_dir.md)
+  : Create a theme from a directory of template files
 - [`step_file()`](https://economic.github.io/prefab/reference/step_file.md)
   : Create a file deployment step
 - [`step_text()`](https://economic.github.io/prefab/reference/step_text.md)

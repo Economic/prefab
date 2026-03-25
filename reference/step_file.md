@@ -29,8 +29,10 @@ step_file(source, dest, strategy = "overwrite", data = NULL)
 
 - data:
 
-  `NULL` (default) for static file copy, or a named list of variables to
-  interpolate into the file via `{{var}}` syntax before deploying.
+  `NULL` (default) for static file copy, `"auto"` to interpolate using
+  only auto-discovered project variables (project_dir, package_name,
+  year, date), or a named list of variables to interpolate into the file
+  via `{{var}}` syntax before deploying.
 
 ## Value
 

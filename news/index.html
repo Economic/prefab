@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">prefab</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,19 @@
 <h2 class="pkg-version" data-toc-text="0.1.0" id="prefab-010">prefab 0.1.0<a class="anchor" aria-label="anchor" href="#prefab-010"></a></h2>
 <ul><li>Initial release</li>
 </ul></div>
-  </main></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="prefab-020">prefab 0.2.0<a class="anchor" aria-label="anchor" href="#prefab-020"></a></h2>
+<ul><li>New <code><a href="../reference/theme_from_dir.html">theme_from_dir()</a></code> creates a theme from a directory of template files, with optional <code>_prefab.yml</code> sidecar for per-file strategy and template data control.</li>
+<li>New <code><a href="../reference/load_themes.html">load_themes()</a></code> sources custom theme definitions from a file, with support for the <code>PREFAB_THEMES</code> environment variable and a <code>~/.prefab-themes.R</code> default.</li>
+<li>
+<code><a href="../reference/step_file.html">step_file()</a></code> now accepts <code>data = "auto"</code> as a clearer alternative to <code>data = list()</code> for enabling auto-context template rendering.</li>
+<li>
+<code><a href="../reference/claude_r_analysis.html">claude_r_analysis()</a></code> and <code><a href="../reference/claude_r_targets.html">claude_r_targets()</a></code> gain a <code>settings_json</code> argument to optionally skip deploying <code>settings.json</code>.</li>
+<li>Updated bundled <code>settings.json</code> to make the <code>air</code> formatter hook conditional on <code>air</code> being installed.</li>
+<li>Updated bundled <code>r_analysis.md</code> with guidance on column-wise operations and naming intermediate objects.</li>
+</ul></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
    </div>

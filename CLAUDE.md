@@ -8,7 +8,7 @@ but the configurations are useful for any data analysis project.
 ## Status
 
 Development (0.0.0.9000). Core theme system is fully implemented. All
-exported functions are working with 232 passing tests and clean R CMD
+exported functions are working with 244 passing tests and clean R CMD
 check.
 
 ## Core concepts
@@ -41,10 +41,14 @@ check.
   `function(source, dest, strategy = "overwrite", data = NULL)` that
   resolves source paths from a local directory
 - `new_theme(...)` — construct a theme from step objects
+- `theme_from_dir(path, strategy = "overwrite")` — create a theme from a
+  directory tree, with optional `_prefab.yml` sidecar
 - `use_theme(theme)` — apply a theme to the current project
 - `create_project(path, theme)` — create a directory and apply a theme
 - `theme_code(theme)` — print the R code that reproduces a theme (for
   copy-paste customization)
+- `load_themes(file = NULL)` — source custom theme definitions from a
+  file (`PREFAB_THEMES` env var or `~/.prefab-themes.R`)
 
 ## Pre-set themes
 
@@ -68,6 +72,8 @@ check.
       execute.R               # execute_theme()
       use-theme.R             # use_theme()
       create-project.R        # create_project()
+      load-themes.R           # load_themes()
+      theme-from-dir.R        # theme_from_dir()
       themes-project.R        # r_analysis(), r_targets(), gitignore_lines
       themes-claude.R         # claude_r_analysis(), claude_r_targets()
     inst/

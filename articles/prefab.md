@@ -1,64 +1,149 @@
-# Building custom themes with prefab
+# Getting started with prefab
 
-## Themes are functions
+## Basics
 
-A prefab theme is a function that returns a `prefab_theme` object – an
-ordered list of steps. Calling a theme shows you an outline of the
-steps; nothing happens to the file system until you pass the theme to
-[`use_theme()`](https://economic.github.io/prefab/reference/use_theme.md)
-or
-[`create_project()`](https://economic.github.io/prefab/reference/create_project.md).
+The goal of prefab is to make it easier for you to set up files and
+directories you need for a given project. You can think of the project
+scaffolding, like README files and directory structures, as a *theme*
+you want to apply to a new or existing project directory.
+
+For example,
+[`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md)
+is a prefab theme shipped with this package to provide scaffolding for a
+simple R data analysis project. To understand what it does, simply call
+the theme to show the outline of steps:
 
 ``` r
 library(prefab)
 
-# Calling r_analysis() returns a theme object -- it does not write any files
 r_analysis()
-#> <theme> 3 steps
-#> * file → main.R (skip)
-#> * file → README.md (skip)
-#> * text → .gitignore (union)
+#> <theme> 5 steps
+#> • run → fs::dir_create('data_raw')
+#> • run → fs::dir_create('data_processed')
+#> • Writing main.R (skip)
+#> • Writing README.md (skip)
+#> • Writing .gitignore (union)
 #> ℹ Apply with `use_theme()` or `create_project()`
 ```
 
-Because themes are functions, they can take parameters, compose with
-`+`, and ship in packages.
-
-## Applying themes
-
-Pass a theme to
+Nothing happens to the file system until you pass the theme to
 [`use_theme()`](https://economic.github.io/prefab/reference/use_theme.md)
-(existing project) or
+or
+[`create_project()`](https://economic.github.io/prefab/reference/create_project.md).
+In this case, the
+[`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md)
+theme shows that it contains five steps: two create directories, and
+three write files. File steps also contain a merge strategy shown in
+`()` for handling pre-existing destination files.
+
+Passing the theme to
 [`create_project()`](https://economic.github.io/prefab/reference/create_project.md)
-(new directory):
+will create a new project folder with that scaffolding.
+
+``` r
+create_project(tempfile("my-analysis-project"), r_analysis())
+#> ✔ Running fs::dir_create('data_raw')
+#> ✔ Running fs::dir_create('data_processed')
+#> ✔ Writing main.R (new)
+#> ✔ Writing README.md (new)
+#> ✔ Writing .gitignore (new)
+```
+
+That created a directory called `~/my-analysis-project`, created two new
+subdirectories, and three new files. Then (assuming you are using
+Positron or Rstudio) it opened the project in a new session.
+
+Instead of creating a new project directory, you can also apply a theme
+to your current project with
+[`use_theme()`](https://economic.github.io/prefab/reference/use_theme.md):
 
 ``` r
 use_theme(r_analysis())
-create_project("~/projects/my-targets-project", r_targets())
+#> ✔ Running fs::dir_create('data_raw')
+#> ✔ Running fs::dir_create('data_processed')
+#> ✔ Writing main.R (new)
+#> ✔ Writing README.md (new)
+#> ✔ Writing .gitignore (new)
 ```
 
-[`use_theme()`](https://economic.github.io/prefab/reference/use_theme.md)
-discovers the project root automatically (via `.here`, `.Rproj`, `.git`,
-etc.).
-[`create_project()`](https://economic.github.io/prefab/reference/create_project.md)
-creates the directory first, then applies the theme.
+## Composing themes with `+` and arguments
 
-## Composing themes with `+`
-
-Themes compose with `+`, concatenating their step lists:
+A prefab theme is a function that returns an ordered list of steps. In
+general these steps can create or modify files and paths, and also run
+other functions. Because themes are just functions, they can have
+arguments and you can compose them with `+`, concatenating their steps.
 
 ``` r
-# Project structure + Claude Code agent config
-use_theme(r_analysis() + claude_r_analysis())
-
-create_project("~/projects/new-analysis", r_targets() + claude_r_targets())
+use_theme(r_analysis(data_dirs = FALSE) + claude_r_analysis())
+#> ✔ Running fs::dir_create('data_raw')
+#> ✔ Running fs::dir_create('data_processed')
+#> ✔ Writing main.R (new)
+#> ✔ Writing README.md (new)
+#> ✔ Writing .gitignore (new)
+#> ✔ Writing .claude/rules/r_analysis.md (new)
+#> ✔ Writing .gitignore (union)
 ```
 
-Order matters: later steps can override earlier ones when the merge
-strategy allows it (e.g., two themes deploying the same file with
-`"overwrite"`).
+Steps run left to right.
 
 ## Writing your own theme
+
+There are three ways to build your own theme:
+
+**From a directory of files.** Arrange template files in a folder and
+[`theme_from_dir()`](https://economic.github.io/prefab/reference/theme_from_dir.md)
+turns them into a theme. An optional `_prefab.yml` sidecar controls
+per-file merge strategies and template data.
+
+``` r
+my_theme <- theme_from_dir("~/my-extras")
+```
+
+**From steps.** Build themes programmatically with
+[`step_file()`](https://economic.github.io/prefab/reference/step_file.md),
+[`step_text()`](https://economic.github.io/prefab/reference/step_text.md),
+and
+[`step_run()`](https://economic.github.io/prefab/reference/step_run.md):
+
+``` r
+my_theme <- function() {
+  new_theme(
+    step_file("~/my_themes/header.R", "R/header.R"),
+    step_text(c("*.csv", "*.rds"), ".gitignore", strategy = "union"),
+    step_run(fs::dir_create, "tables", .label = "fs::dir_create('tables')")
+  )
+}
+```
+
+**By composing existing themes.** Combine and extend built-in or custom
+themes with `+`:
+
+``` r
+my_theme <- r_analysis() + claude_r_analysis() + theme_from_dir("~/my-extras")
+```
+
+## Sharing and re-using custom themes
+
+**Source a file.** Save theme functions in an external script and source
+them.
+[`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md)
+makes that easy: put themes in `~/.prefab-themes.R` (or set the
+`PREFAB_THEMES` environment variable) and call
+[`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md)
+to make them available.
+
+``` r
+load_themes()
+use_theme(my_analysis_theme())
+```
+
+**Ship in a package.** This package ships with several basic themes, and
+you can add themes (which are just functions) to your own package. Use
+[`from_package()`](https://economic.github.io/prefab/reference/from_package.md)
+to resolve template files from `inst/`. Using a package is best sharing
+themes across an organization.
+
+## Theme steps
 
 A theme function is any R function that returns a `prefab_theme` via
 [`new_theme()`](https://economic.github.io/prefab/reference/new_theme.md).
@@ -70,10 +155,9 @@ The three step types are:
 
 ``` r
 my_analysis <- function(use_data_dir = TRUE, extra_ignores = character(0)) {
-  from_templates <- from_dir("~/my-templates")
   ignore_lines <- c(".Rproj.user", ".Rhistory", ".RData", extra_ignores)
   new_theme(
-    from_templates("main.R", "main.R", strategy = "skip"),
+    step_file("~/my-templates/main.R", "main.R", strategy = "skip"),
     from_templates("README.md", "README.md", strategy = "skip"),
     step_text(ignore_lines, ".gitignore", strategy = "union"),
     if (use_data_dir) step_run(fs::dir_create, "data", .label = "fs::dir_create")
@@ -131,12 +215,6 @@ my_org_analysis <- function() {
 }
 ```
 
-Users compose your themes with any others:
-
-``` r
-use_theme(mythemes::my_org_analysis() + prefab::claude_r_analysis())
-```
-
 ## Inspecting themes with `theme_code()`
 
 [`theme_code()`](https://economic.github.io/prefab/reference/theme_code.md)
@@ -146,8 +224,11 @@ built-in themes or as a starting point for customization:
 ``` r
 theme_code(claude_r_analysis())
 #> new_theme(
+#> 
 #>   from_package("prefab")("claude/settings.json", ".claude/settings.json", strategy = "merge_json"),
+#> 
 #>   from_package("prefab")("claude/rules/r_analysis.md", ".claude/rules/r_analysis.md"),
+#> 
 #>   step_text(c(".Rproj.user", ".Rhistory", ".RData", ".DS_Store"), ".gitignore", strategy = "union")
 #> )
 ```

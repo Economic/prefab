@@ -6,8 +6,15 @@ Creates a theme that scaffolds a simple R analysis project with
 ## Usage
 
 ``` r
-r_analysis()
+r_analysis(data_dirs = TRUE)
 ```
+
+## Arguments
+
+- data_dirs:
+
+  Logical. If `TRUE` (default), creates directories `./data_raw` and
+  `./data_processed`.
 
 ## Value
 
@@ -17,7 +24,9 @@ A `prefab_theme` object.
 
 ``` r
 r_analysis()
-#> <theme> 3 steps
+#> <theme> 5 steps
+#> • run → fs::dir_create('data_raw')
+#> • run → fs::dir_create('data_processed')
 #> • Writing main.R (skip)
 #> • Writing README.md (skip)
 #> • Writing .gitignore (union)
