@@ -29,7 +29,12 @@ r_analysis <- function(data_dirs = TRUE) {
       .label = "fs::dir_create('data_processed')"
     )
   }
-  step_main <- from_prefab("r_analysis/main.R", "main.R", strategy = "skip")
+  step_main <- from_prefab(
+    "r_analysis/main.R",
+    "main.R",
+    strategy = "skip",
+    data = "auto"
+  )
   step_readme <- from_prefab(
     "r_analysis/README.md",
     "README.md",

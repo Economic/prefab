@@ -46,5 +46,5 @@ sticker(
 )
 
 magick::image_read("man/figures/logo.png") |>
-  magick::image_resize("240x278") |>
+  magick::image_resize("518x600") |>
   magick::image_write("man/figures/logo.png")
