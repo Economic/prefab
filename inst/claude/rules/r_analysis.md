@@ -1,62 +1,98 @@
-## Guidance for data analysis in R
+# Guidance for data analysis in R
 
-### General conventions
+## Running and verifying code
 
-- Use tidyverse-friendly code
-- Make plots using ggplot
-- Use base pipe `|>` instead of `%>%`
+Run the scripts that you write or edit and fix any errors.
 
-### Development workflow
+To run R code, use `Rscript main.R` or `Rscript -e "some_expression"`. For targets workflows, use `Rscript -e 'targets::tar_make()'`.
 
-To run R code, use `Rscript main.R` or `Rscript -e "some_expression"`. Run code you write or edit in order to verify that it works and fix any problems.
-
-### Syntax and structure
-
-#### File names
-
-Use lower case for file names. Delimit words with `_` or `-`. Avoid spaces.
-
-#### Packages
-
-If the complete data analysis is a single script, load all packages with `library()` calls at the beginning of the file. For multi-file workflows, source a separate `packages.R` file that contains all `library()` calls.
-
-Use the `conflicted` package to resolve conflicts.
+For multi-file workflows, source a separate `packages.R` file that contains all `library()` calls.
 
 Use `renv` only if explicitly requested or already initialized.
 
-#### Object names
+## Writing R code
+
+### General conventions
+
+- Use base pipe `|>` instead of `%>%`
+- Use tidyverse-friendly code
+- Prefer `readr` or `arrow` packages over `read.csv`
+- Prefer `stringr` over base regex functions
+- Prefer `forcats` for factor handling
+- Make plots using `ggplot2`
+
+### Packages
+For single-file scripts, load all packages with `library()` calls at the top of the file. For multi-file workflows, these calls go in `packages.R` (see above). 
+
+Load the `conflicted` package near the top to flag function name conflicts across packages. Use `conflicts_prefer` to manage them:
+
+```r
+library(conflicted)
+library(tidyverse)
+conflicts_prefer(dplyr::filter, dplyr::lag)
+```
+
+Loading the entire tidyverse is acceptable unless there are concerns about performance or this analysis is part of an R package.
+
+Do not use `package::function()` to call functions as part of an analysis; use `library()` calls as described above.
+
+### File names
+
+Use lower case for file names. Delimit words with `_` or `-`; prefer `_`, but if existing files in the project use `-`, match that instead. Avoid spaces.
+
+### Object names
 
 Use snake case (lower case with underscores `_`) for variable and function names. Prefer verbs for function names.
 
-#### Function calls
+### Function calls
 
 Never partially match function arguments with a unique prefix; use the full argument name instead.
 
-For legibility purposes you may omit names of very common arguments, like a `data` argument.
-
 Never omit argument names in a `switch()` statement.
 
-#### Control flow
+### Control flow
 
-Never use `&` and `|` inside of an if clause because they can unexpectedly return vectors; always use `&&` and `||` instead.
+Never use `&` and `|` inside an `if()` or `while()` condition because they can unexpectedly return vectors; always use `&&` and `||` instead.
 
-#### Returned values in functions
+### Returned values in functions
 
 Only use `return()` for early returns. Otherwise, rely on R to return the result of the last evaluated expression.
 
-#### Comments
+### Comments
 
 Use comments to explain the "why", and not the "what" or "how".
 
-#### Style preferences
+### Joins
 
 In dplyr-based joins use `by = join_by()` syntax, such as `by = join_by(a == b)` instead of `by = c("a" = "b")`.
 
-When possible avoid `group_by` and use the `.by` argument.
+### Grouped operations
 
-Use `map_*()` instead of `sapply`.
+In general try to avoid `group_by() |> ... |> ungroup()` constructions because they are hard to read, as it is cognitively demanding to read code that only make sense when the grouped or partially grouped nature of the data is implicit.
 
-#### Column-wise operations
+Instead, use grouping arguments in the downstream operations when they are supported, like `.by` in `mutate` or `summarize`.
+
+```r
+# Avoid
+result <- df |>
+  group_by(g) |>
+  mutate(x_mean = mean(x)) |>
+  ungroup()
+
+# Prefer
+result <- df |>
+  mutate(x_mean = mean(x), .by = g)
+```
+
+Only use `group_by()` when the grouping must persist across multiple operations and subsequent verbs have no grouping arguments.
+
+### Iteration
+
+Always use `map_*()` instead of `sapply`.
+
+In general, prefer purrr-based functions over base apply functions. An exception to this rule is if you are developing a package where you are trying to minimize dependencies.
+
+### Column-wise operations
 
 Use `across()` for column-wise operations within a single `mutate()` call rather than a `for` loop:
 
@@ -80,7 +116,7 @@ result_scaled <- result |>
   pivot_wider(names_from = col, values_from = c(avg, total))
 ```
 
-#### Naming intermediate objects
+### Naming intermediate objects
 
 Give each distinct stage of an analysis a descriptive name. Do not reuse the same object name for different things; doing so makes it hard to inspect intermediate results and debug errors.
 

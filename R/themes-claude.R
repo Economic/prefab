@@ -51,6 +51,10 @@ claude_r_targets <- function(settings_json = TRUE) {
     settings_step,
     from_prefab("claude/rules/r_targets.md", ".claude/rules/r_targets.md"),
     from_prefab(
+      "claude/skills/targets-branching/SKILL.md",
+      ".claude/skills/targets-branching/SKILL.md"
+    ),
+    from_prefab(
       "claude/rules/r_analysis.md",
       ".claude/rules/r_analysis.md",
       strategy = "skip"

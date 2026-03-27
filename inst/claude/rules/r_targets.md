@@ -1,4 +1,4 @@
-## Guidance for using targets-based workflows in R
+# Guidance for using targets-based workflows in R
 
 If the general targets scaffolding (`_targets.R`, etc.) does not exist, create
 
@@ -6,13 +6,13 @@ If the general targets scaffolding (`_targets.R`, etc.) does not exist, create
 - `_targets.R`: for the pipeline
 - `R/`: for all functions
 
-### Development workflow
+## Development workflow
 
 Re-run the targets pipeline after any changes: `Rscript -e 'targets::tar_make()'`. 
 
 To inspect targets interactively or in ad hoc scripts, first call `targets::tar_load_globals()` to load all packages and functions, then use `tar_load()` or `tar_read()` to access built targets.
 
-### `_targets.R`
+## `_targets.R`
 
 `_targets.R` should have the following structure
 
@@ -22,11 +22,11 @@ tar_source()
 
 ## targets pipeline goes here
 ```
-### Pipeline conventions
+## Pipeline conventions
 
-Use `tarchetypes::tar_assign()` instead of a simple list.  
+Use `tar_assign()` from the `tarchetypes` package instead of a simple list.  
 
-Every assignment inside `tar_assign` must pipe into (or be wrapped by) a target factory — `tar_target()`, `tar_file()`, `tar_file_read()`, etc. A bare `my_target = f(input)` without `tar_target()` will fail. 
+Every assignment inside `tar_assign` must pipe into (or be wrapped by) a target factory — `tar_target()`, `tar_file()`, `tar_file_read()`, etc. A bare `my_target <- f(input)` without `tar_target()` will fail. 
 
 Prefer `f(x) |> tar_target()` over `tar_target(f(x))` — the pipe style reads top-to-bottom as "compute, then store."
 
@@ -34,43 +34,49 @@ Here is a complete example showing the preferred syntax for regular targets, fil
 
 ```
 tar_assign({
-  raw_file = "data.csv" |>
+  raw_file <- "data.csv" |>
     tar_file()
 
-  raw_data = read_csv(raw_file) |>
+  raw_data <- read_csv(raw_file) |>
     tar_target()
 
-  result = analyze(raw_data) |>
+  result <- analyze(raw_data) |>
     tar_target()
 
-  output_file = write_output(result) |>
+  output_file <- write_output(result) |>
     tar_file()
 })
 ```
 
-### File targets
+## File targets
 
-For tracking input or output files, do not use `tar_target(format = "file")` but instead use `tarchetypes::tar_file()`.
+For tracking input or output files, do not use `tar_target(format = "file")` but instead use `tar_file()` from `tarchetypes`.
 
-If an input file can be parsed easily without a complicated set of arguments use `tarchetypes::tar_file_read`:
+If an input file can be parsed easily without a complicated set of arguments use `tar_file_read()` from `tarchetypes`.
 
 ```
-data_input = "data_input.csv" |>
-  tar_file_read(read_csv(file = !!.x, show_col_types = F))
+data_input <- "data_input.csv" |>
+  tar_file_read(read_csv(file = !!.x, show_col_types = FALSE))
 ```
 
-### Packages
+## Functions
 
-All packages should be loaded in packages.R. Do not use syntax like `package::function()`.
+Functions in `R/` should be side-effect free.
+
+Except for very simple pipelines, do not put all functions in a single script in `R/`. Instead ask what certain functions have in common and put them in a file named after that commonality. 
+
+## Packages
+
+All packages should be loaded in packages.R. Do not use syntax like `package::function()` inside pipeline code and functions in `R/`.
 
 Use `library(conflicted)` and `conflicts_prefer()` to resolve all conflicts.
 
 Use `renv` only if explicitly requested or already initialized.
 
-### Structuring pipelines: default to "wide" instead of "long"
+## Pipeline structure
 
-Wide pipelines split work into independent targets that read from shared upstream targets rather than from each other. Long, linear pipelines chain targets sequentially, where each step feeds the next. 
+Default to wide pipelines that split work into independent targets reading from shared upstream targets, rather than long linear chains. Wide pipelines cache better during iterative development. Go long only when steps are genuinely sequential with no branching consumers.
 
-Default to wide. Wide pipelines pay off quickly because we re-run the pipeline many times as we develop and unrelated targets stay cached. Go long only when steps are genuinely linear with no branching consumers, or for simple projects where end-to-end run time is very short.
+## Branching
 
-If an upstream change invalidates many targets, the pipeline may be too long and should be widened.
+For dynamic branching patterns and aggregation, use the `targets-branching` skill.
