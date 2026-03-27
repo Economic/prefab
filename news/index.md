@@ -27,3 +27,13 @@
   conditional on `air` being installed.
 - Updated bundled `r_analysis.md` with guidance on column-wise
   operations and naming intermediate objects.
+
+## prefab 0.3.0
+
+- Improve agent guidance in
+  [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md)
+  and
+  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
+- Add targets-branching skill to files
+  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
+  deploys

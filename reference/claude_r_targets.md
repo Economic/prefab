@@ -24,9 +24,10 @@ A `prefab_theme` object.
 
 ``` r
 claude_r_targets()
-#> <theme> 4 steps
+#> <theme> 5 steps
 #> • Writing .claude/settings.json (merge_json)
 #> • Writing .claude/rules/r_targets.md (overwrite)
+#> • Writing .claude/skills/targets-branching/SKILL.md (overwrite)
 #> • Writing .claude/rules/r_analysis.md (skip)
 #> • Writing .gitignore (union)
 #> ℹ Apply with `use_theme()` or `create_project()`
