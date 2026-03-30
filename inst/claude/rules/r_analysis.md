@@ -21,6 +21,8 @@ Use `renv` only if explicitly requested or already initialized.
 - Prefer `forcats` for factor handling
 - Make plots using `ggplot2`
 
+**Important**: If a `CLAUDE.md` contains different guidance, follow `CLAUDE.md`. Inform the user if your context contains contradictory instructions.
+
 ### Packages
 For single-file scripts, load all packages with `library()` calls at the top of the file. For multi-file workflows, these calls go in `packages.R` (see above). 
 

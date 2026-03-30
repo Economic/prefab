@@ -37,11 +37,11 @@ install.packages(
 
 Create a new project with scaffolding and Claude Code config:
 
-```{r quickstart, display_code = 'library(prefab)\n\ncreate_project("~/projects/my-analysis", r_analysis() + claude_r_analysis())'}
+```{r quickstart, display_code = 'library(prefab)\n\ncreate_project("~/projects/my-analysis", r_analysis())'}
 library(prefab)
 withr::with_tempdir({
   app <- cli::start_app(output = "stdout", .auto_close = FALSE)
-  create_project(tempfile("my-analysis"), r_analysis() + claude_r_analysis())
+  create_project(tempfile("my-analysis"), r_analysis())
   cli::stop_app(app)
 })
 ```
@@ -82,10 +82,12 @@ withr::with_tempdir({
 
 ## Building custom themes
 
-**From a directory of files.** Arrange template files in a folder and `theme_from_dir()` turns them into a theme. An optional `_prefab.yml` sidecar controls per-file merge strategies and template data.
+prefab ships with some basic themes, but its real goal is to make it simple for you to apply the kinds of project scaffolding that you prefer. There are three ways to build your own themes:
+
+**From a directory of files.** Arrange template files in a folder and `theme_from_dir()` turns them into a theme.
 
 ``` r
-my_theme <- theme_from_dir("~/my-extras")
+my_theme <- theme_from_dir("~/my-project-layout")
 ```
 
 **From steps.** Build themes programmatically with `step_file()`, `step_text()`, and `step_run()`:
@@ -103,7 +105,7 @@ my_theme <- function() {
 **By composing existing themes.** Combine and extend built-in or custom themes with `+`:
 
 ``` r
-my_theme <- r_analysis() + claude_r_analysis() + theme_from_dir("~/my-extras")
+my_theme <- theme_from_dir("~/my-project-layout") + claude_r_analysis() 
 ```
 
 ## Sharing and re-using custom themes

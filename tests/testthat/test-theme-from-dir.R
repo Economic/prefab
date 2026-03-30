@@ -67,6 +67,33 @@ test_that("theme_from_dir() returns empty theme for empty directory", {
   expect_length(theme$steps, 0)
 })
 
+test_that("theme_from_dir() creates step_run for empty directories", {
+  tmp_dir <- withr::local_tempdir()
+  fs::dir_create(file.path(tmp_dir, "data"))
+  writeLines("hello", file.path(tmp_dir, "a.txt"))
+
+  theme <- theme_from_dir(tmp_dir)
+  expect_length(theme$steps, 2)
+
+  dir_step <- theme$steps[[1]]
+  expect_s3_class(dir_step, "prefab_step_run")
+  expect_equal(dir_step$label, "fs::dir_create('data')")
+
+  file_step <- theme$steps[[2]]
+  expect_s3_class(file_step, "prefab_step_file")
+})
+
+test_that("theme_from_dir() ignores directories that contain files", {
+  tmp_dir <- withr::local_tempdir()
+  fs::dir_create(file.path(tmp_dir, "R"))
+  writeLines("code", file.path(tmp_dir, "R", "main.R"))
+
+  theme <- theme_from_dir(tmp_dir)
+  # Only the file step, no dir_create for R/
+  expect_length(theme$steps, 1)
+  expect_s3_class(theme$steps[[1]], "prefab_step_file")
+})
+
 test_that("theme_from_dir() errors for non-existent path", {
   expect_error(theme_from_dir("/nonexistent/dir"), "does not exist")
 })
@@ -75,8 +102,8 @@ test_that("theme_from_dir() uses specified default strategy", {
   tmp_dir <- withr::local_tempdir()
   writeLines("hello", file.path(tmp_dir, "a.txt"))
 
-  theme <- theme_from_dir(tmp_dir, strategy = "skip")
-  expect_equal(theme$steps[[1]]$strategy, "skip")
+  theme <- theme_from_dir(tmp_dir, strategy = "overwrite")
+  expect_equal(theme$steps[[1]]$strategy, "overwrite")
 })
 
 test_that("theme_from_dir() attaches provenance", {
@@ -124,7 +151,7 @@ test_that("sidecar overrides strategy per file", {
   a_step <- steps[[which(vapply(steps, `[[`, character(1), "dest") == "a.txt")]]
   b_step <- steps[[which(vapply(steps, `[[`, character(1), "dest") == "b.txt")]]
   expect_equal(a_step$strategy, "skip")
-  expect_equal(b_step$strategy, "overwrite")
+  expect_equal(b_step$strategy, "skip")
 })
 
 test_that("sidecar glob defaults apply", {
@@ -146,7 +173,7 @@ test_that("sidecar glob defaults apply", {
     vapply(steps, `[[`, character(1), "dest") == "main.R"
   )]]
   expect_equal(md_step$strategy, "skip")
-  expect_equal(r_step$strategy, "overwrite")
+  expect_equal(r_step$strategy, "skip")
 })
 
 test_that("sidecar exact match takes precedence over glob", {

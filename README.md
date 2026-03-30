@@ -24,15 +24,12 @@ Create a new project with scaffolding and Claude Code config:
 ``` r
 library(prefab)
 
-create_project("~/projects/my-analysis", r_analysis() + claude_r_analysis())
+create_project("~/projects/my-analysis", r_analysis())
 #> ✔ Running fs::dir_create('data_raw')
 #> ✔ Running fs::dir_create('data_processed')
 #> ✔ Writing 'main.R' (new)
 #> ✔ Writing 'README.md' (new)
 #> ✔ Writing '.gitignore' (new)
-#> ✔ Writing '.claude/settings.json' (new)
-#> ✔ Writing '.claude/rules/r_analysis.md' (new)
-#> ✔ Writing '.gitignore' (union)
 ```
 
 Add a theme to an existing project:
@@ -69,18 +66,22 @@ create_project("my-project", theme)
 #> ✔ Running fs::dir_create('R')
 #> ✔ Writing '.claude/settings.json' (new)
 #> ✔ Writing '.claude/rules/r_targets.md' (new)
+#> ✔ Writing '.claude/skills/targets-branching/SKILL.md' (new)
 #> ✔ Writing '.claude/rules/r_analysis.md' (new)
 #> ✔ Writing '.gitignore' (union)
 ```
 
 ## Building custom themes
 
+prefab ships with some basic themes, but its real goal is to make it
+simple for you to apply the kinds of project scaffolding that you
+prefer. There are three ways to build your own themes:
+
 **From a directory of files.** Arrange template files in a folder and
-`theme_from_dir()` turns them into a theme. An optional `_prefab.yml`
-sidecar controls per-file merge strategies and template data.
+`theme_from_dir()` turns them into a theme.
 
 ``` r
-my_theme <- theme_from_dir("~/my-extras")
+my_theme <- theme_from_dir("~/my-project-layout")
 ```
 
 **From steps.** Build themes programmatically with `step_file()`,
@@ -100,7 +101,7 @@ my_theme <- function() {
 themes with `+`:
 
 ``` r
-my_theme <- r_analysis() + claude_r_analysis() + theme_from_dir("~/my-extras")
+my_theme <- theme_from_dir("~/my-project-layout") + claude_r_analysis() 
 ```
 
 ## Sharing and re-using custom themes

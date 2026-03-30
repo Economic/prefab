@@ -21,7 +21,7 @@
 #' # Compose with other themes
 #' use_theme(r_analysis() + theme_from_dir("~/my-extras"))
 #' }
-theme_from_dir <- function(path, strategy = "overwrite") {
+theme_from_dir <- function(path, strategy = "skip") {
   validate_strategy(strategy)
   abs_path <- fs::path_abs(path)
 
@@ -50,6 +50,26 @@ theme_from_dir <- function(path, strategy = "overwrite") {
     sidecar <- parse_sidecar(sidecar_path)
   }
 
+  # Find empty directories (no files anywhere beneath them)
+  all_dirs <- fs::dir_ls(abs_path, type = "directory", recurse = TRUE)
+  empty_dirs <- vapply(
+    all_dirs,
+    function(d) {
+      length(fs::dir_ls(d, type = "file", recurse = TRUE, all = TRUE)) == 0L
+    },
+    logical(1)
+  )
+  empty_dirs <- all_dirs[empty_dirs]
+
+  dir_steps <- lapply(empty_dirs, function(d) {
+    rel <- as.character(fs::path_rel(d, abs_path))
+    step_run(
+      fs::dir_create,
+      rel,
+      .label = paste0("fs::dir_create('", rel, "')")
+    )
+  })
+
   steps <- lapply(all_files, function(src) {
     rel <- as.character(fs::path_rel(src, abs_path))
     file_config <- resolve_sidecar(rel, sidecar, strategy)
@@ -68,7 +88,7 @@ theme_from_dir <- function(path, strategy = "overwrite") {
     step
   })
 
-  do.call(new_theme, steps)
+  do.call(new_theme, c(dir_steps, steps))
 }
 
 

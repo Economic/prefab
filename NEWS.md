@@ -1,6 +1,12 @@
-# prefab 0.1.0
+# prefab 0.4.0
+* change `theme_from_dir` default strategy to "skip"
+* reference `CLAUDE.md` as source of truth in `claude_r_analysis()`
+* improve documentation
 
-* Initial release
+# prefab 0.3.0
+
+* Improve agent guidance in `claude_r_analysis()` and `claude_r_targets()`
+* Add targets-branching skill to files `claude_r_targets()` deploys
 
 # prefab 0.2.0
 
@@ -11,7 +17,6 @@
 * Updated bundled `settings.json` to make the `air` formatter hook conditional on `air` being installed.
 * Updated bundled `r_analysis.md` with guidance on column-wise operations and naming intermediate objects.
 
-# prefab 0.3.0
+# prefab 0.1.0
 
-* Improve agent guidance in `claude_r_analysis()` and `claude_r_targets()`
-* Add targets-branching skill to files `claude_r_targets()` deploys
+* Initial release

@@ -24,7 +24,7 @@ Development (0.0.0.9000). Core theme system is fully implemented. All exported f
 - `from_package(package)` — return a step-builder `function(source, dest, strategy = "overwrite", data = NULL)` that resolves source paths from a package (installed or loaded via `devtools::load_all()`)
 - `from_dir(path)` — return a step-builder `function(source, dest, strategy = "overwrite", data = NULL)` that resolves source paths from a local directory
 - `new_theme(...)` — construct a theme from step objects
-- `theme_from_dir(path, strategy = "overwrite")` — create a theme from a directory tree, with optional `_prefab.yml` sidecar
+- `theme_from_dir(path, strategy = "skip")` — create a theme from a directory tree, with optional `_prefab.yml` sidecar
 - `use_theme(theme)` — apply a theme to the current project
 - `create_project(path, theme)` — create a directory and apply a theme
 - `theme_code(theme)` — print the R code that reproduces a theme (for copy-paste customization)

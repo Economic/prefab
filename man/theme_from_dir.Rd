@@ -4,7 +4,7 @@
 \alias{theme_from_dir}
 \title{Create a theme from a directory of template files}
 \usage{
-theme_from_dir(path, strategy = "overwrite")
+theme_from_dir(path, strategy = "skip")
 }
 \arguments{
 \item{path}{Path to a directory of template files. Resolved to an absolute
