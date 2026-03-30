@@ -41,7 +41,7 @@ check.
   `function(source, dest, strategy = "overwrite", data = NULL)` that
   resolves source paths from a local directory
 - `new_theme(...)` — construct a theme from step objects
-- `theme_from_dir(path, strategy = "overwrite")` — create a theme from a
+- `theme_from_dir(path, strategy = "skip")` — create a theme from a
   directory tree, with optional `_prefab.yml` sidecar
 - `use_theme(theme)` — apply a theme to the current project
 - `create_project(path, theme)` — create a directory and apply a theme

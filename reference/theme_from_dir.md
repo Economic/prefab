@@ -8,7 +8,7 @@ strategy and template data per file.
 ## Usage
 
 ``` r
-theme_from_dir(path, strategy = "overwrite")
+theme_from_dir(path, strategy = "skip")
 ```
 
 ## Arguments

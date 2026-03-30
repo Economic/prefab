@@ -1,8 +1,21 @@
 # Changelog
 
-## prefab 0.1.0
+## prefab 0.4.0
 
-- Initial release
+- change `theme_from_dir` default strategy to “skip”
+- reference `CLAUDE.md` as source of truth in
+  [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md)
+- improve documentation
+
+## prefab 0.3.0
+
+- Improve agent guidance in
+  [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md)
+  and
+  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
+- Add targets-branching skill to files
+  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
+  deploys
 
 ## prefab 0.2.0
 
@@ -28,12 +41,6 @@
 - Updated bundled `r_analysis.md` with guidance on column-wise
   operations and naming intermediate objects.
 
-## prefab 0.3.0
+## prefab 0.1.0
 
-- Improve agent guidance in
-  [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md)
-  and
-  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
-- Add targets-branching skill to files
-  [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)
-  deploys
+- Initial release

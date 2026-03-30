@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">prefab</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,9 +69,12 @@
 </h2>
 <p>The goal of prefab is to make it easier for you to set up files and
 directories you need for a given project. You can think of the project
-scaffolding, like README files and directory structures, as a
+scaffolding–like README files and directory structures–as a
 <em>theme</em> you want to apply to a new or existing project
 directory.</p>
+<div class="section level3">
+<h3 id="viewing-and-applying-themes">Viewing and applying themes<a class="anchor" aria-label="anchor" href="#viewing-and-applying-themes"></a>
+</h3>
 <p>For example, <code><a href="../reference/r_analysis.html">r_analysis()</a></code> is a prefab theme shipped with
 this package to provide scaffolding for a simple R data analysis
 project. To understand what it does, simply call the theme to show the
@@ -88,12 +91,12 @@ outline of steps:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Writing <span style="color: #0000BB;">.gitignore</span> <span style="font-style: italic;">(union)</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Apply with `use_theme()` or `create_project()`</span></span></code></pre></div>
 <p>Nothing happens to the file system until you pass the theme to
-<code><a href="../reference/use_theme.html">use_theme()</a></code> or <code><a href="../reference/create_project.html">create_project()</a></code>. In this case,
-the <code><a href="../reference/r_analysis.html">r_analysis()</a></code> theme shows that it contains five steps:
+<code><a href="../reference/use_theme.html">use_theme()</a></code> or <code><a href="../reference/create_project.html">create_project()</a></code>. Above, the
+<code><a href="../reference/r_analysis.html">r_analysis()</a></code> theme indicated that it contains five steps:
 two create directories, and three write files. File steps also contain a
 merge strategy shown in <code>()</code> for handling pre-existing
 destination files.</p>
-<p>Passing the theme to <code><a href="../reference/create_project.html">create_project()</a></code> will create a new
+<p>Pass the theme to <code><a href="../reference/create_project.html">create_project()</a></code> to create a new
 project folder with that scaffolding.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_project.html">create_project</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-analysis-project"</span><span class="op">)</span>, <span class="fu"><a href="../reference/r_analysis.html">r_analysis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -102,8 +105,8 @@ project folder with that scaffolding.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">main.R</span> (new)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">README.md</span> (new)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">.gitignore</span> (new)</span></span></code></pre></div>
-<p>That created a directory called <code>~/my-analysis-project</code>,
-created two new subdirectories, and three new files. Then (assuming you
+<p>That created a directory called <code>~/my-analysis-project</code>
+and added two new subdirectories and three new files. Then (assuming you
 are using Positron or Rstudio) it opened the project in a new
 session.</p>
 <p>Instead of creating a new project directory, you can also apply a
@@ -116,14 +119,13 @@ theme to your current project with <code><a href="../reference/use_theme.html">u
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">README.md</span> (new)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">.gitignore</span> (new)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="composing-themes-with-and-arguments">Composing themes with <code>+</code> and arguments<a class="anchor" aria-label="anchor" href="#composing-themes-with-and-arguments"></a>
-</h2>
-<p>A prefab theme is a function that returns an ordered list of steps.
-In general these steps can create or modify files and paths, and also
-run other functions. Because themes are just functions, they can have
-arguments and you can compose them with <code>+</code>, concatenating
-their steps.</p>
+<div class="section level3">
+<h3 id="composing-themes-with-and-arguments">Composing themes with <code>+</code> and arguments<a class="anchor" aria-label="anchor" href="#composing-themes-with-and-arguments"></a>
+</h3>
+<p>A prefab theme is a function that returns an ordered list of steps
+that modify files and paths, or run other functions Because themes are
+just functions, they can have arguments and you can compose them with
+<code>+</code>, concatenating their steps.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/use_theme.html">use_theme</a></span><span class="op">(</span><span class="fu"><a href="../reference/r_analysis.html">r_analysis</a></span><span class="op">(</span>data_dirs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/claude_r_analysis.html">claude_r_analysis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running fs::dir_create('data_raw')</span></span>
@@ -135,20 +137,40 @@ their steps.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">.gitignore</span> (union)</span></span></code></pre></div>
 <p>Steps run left to right.</p>
 </div>
+</div>
 <div class="section level2">
-<h2 id="writing-your-own-theme">Writing your own theme<a class="anchor" aria-label="anchor" href="#writing-your-own-theme"></a>
+<h2 id="building-your-own-theme">Building your own theme<a class="anchor" aria-label="anchor" href="#building-your-own-theme"></a>
 </h2>
 <p>There are three ways to build your own theme:</p>
 <p><strong>From a directory of files.</strong> Arrange template files in
-a folder and <code><a href="../reference/theme_from_dir.html">theme_from_dir()</a></code> turns them into a theme. An
-optional <code>_prefab.yml</code> sidecar controls per-file merge
+a folder and <code><a href="../reference/theme_from_dir.html">theme_from_dir()</a></code> turns them into a theme. For
+example, put your desired template files in the folder
+<code>~/my-project-structure</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>├── data</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>├── R</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>│   └── analysis.R</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>│   .gitignore</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>└── README.md</span></code></pre></div>
+<p>Use <code><a href="../reference/theme_from_dir.html">theme_from_dir()</a></code> to turn them into a theme, and then
+apply them to a new or existing project:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/theme_from_dir.html">theme_from_dir</a></span><span class="op">(</span><span class="st">"~/my-project-structure"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/use_theme.html">use_theme</a></span><span class="op">(</span><span class="va">my_theme</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running fs::dir_create('data')</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">.gitignore</span> (new)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">R/analysis.R</span> (new)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">README.md</span> (new)</span></span></code></pre></div>
+<p>An optional <code>_prefab.yml</code> sidecar controls per-file merge
 strategies and template data.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/theme_from_dir.html">theme_from_dir</a></span><span class="op">(</span><span class="st">"~/my-extras"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>By composing existing themes.</strong> Combine and extend
+built-in or custom themes with <code>+</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/theme_from_dir.html">theme_from_dir</a></span><span class="op">(</span><span class="st">"~/my-extras"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/claude_r_analysis.html">claude_r_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Themes are combined left to right.</p>
 <p><strong>From steps.</strong> Build themes programmatically with
 <code><a href="../reference/step_file.html">step_file()</a></code>, <code><a href="../reference/step_text.html">step_text()</a></code>, and
 <code><a href="../reference/step_run.html">step_run()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_theme</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/new_theme.html">new_theme</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/step_file.html">step_file</a></span><span class="op">(</span><span class="st">"~/my_themes/header.R"</span>, <span class="st">"R/header.R"</span><span class="op">)</span>,</span>
@@ -156,34 +178,13 @@ strategies and template data.</p>
 <span>    <span class="fu"><a href="../reference/step_run.html">step_run</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="va"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span>, <span class="st">"tables"</span>, .label <span class="op">=</span> <span class="st">"fs::dir_create('tables')"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><strong>By composing existing themes.</strong> Combine and extend
-built-in or custom themes with <code>+</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/r_analysis.html">r_analysis</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/claude_r_analysis.html">claude_r_analysis</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/theme_from_dir.html">theme_from_dir</a></span><span class="op">(</span><span class="st">"~/my-extras"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="sharing-and-re-using-custom-themes">Sharing and re-using custom themes<a class="anchor" aria-label="anchor" href="#sharing-and-re-using-custom-themes"></a>
+<h2 id="writing-themes-from-steps">Writing themes from steps<a class="anchor" aria-label="anchor" href="#writing-themes-from-steps"></a>
 </h2>
-<p><strong>Source a file.</strong> Save theme functions in an external
-script and source them. <code><a href="../reference/load_themes.html">load_themes()</a></code> makes that easy: put
-themes in <code>~/.prefab-themes.R</code> (or set the
-<code>PREFAB_THEMES</code> environment variable) and call
-<code><a href="../reference/load_themes.html">load_themes()</a></code> to make them available.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/load_themes.html">load_themes</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/use_theme.html">use_theme</a></span><span class="op">(</span><span class="fu">my_analysis_theme</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Ship in a package.</strong> This package ships with several
-basic themes, and you can add themes (which are just functions) to your
-own package. Use <code><a href="../reference/from_package.html">from_package()</a></code> to resolve template files
-from <code>inst/</code>. Using a package is best sharing themes across
-an organization.</p>
-</div>
-<div class="section level2">
-<h2 id="theme-steps">Theme steps<a class="anchor" aria-label="anchor" href="#theme-steps"></a>
-</h2>
-<p>A theme function is any R function that returns a
-<code>prefab_theme</code> via <code><a href="../reference/new_theme.html">new_theme()</a></code>. The three step
-types are:</p>
+<p>A prefab theme is a function that returns an ordered list of steps
+that modify files and paths, or run other functions.</p>
+<p>The three step types are:</p>
 <ul>
 <li>
 <code>step_file(source, dest)</code> – deploy a file</li>
@@ -194,81 +195,49 @@ types are:</p>
 effects</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_analysis</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">use_data_dir</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">extra_ignores</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ignore_lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".Rproj.user"</span>, <span class="st">".Rhistory"</span>, <span class="st">".RData"</span>, <span class="va">extra_ignores</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">my_analysis_theme</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ignore_lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".Rproj.user"</span>, <span class="st">".Rhistory"</span>, <span class="st">".RData"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="../reference/new_theme.html">new_theme</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/step_file.html">step_file</a></span><span class="op">(</span><span class="st">"~/my-templates/main.R"</span>, <span class="st">"main.R"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span>,</span>
-<span>    <span class="fu">from_templates</span><span class="op">(</span><span class="st">"README.md"</span>, <span class="st">"README.md"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="../reference/step_text.html">step_text</a></span><span class="op">(</span><span class="va">ignore_lines</span>, <span class="st">".gitignore"</span>, strategy <span class="op">=</span> <span class="st">"union"</span><span class="op">)</span>,</span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">use_data_dir</span><span class="op">)</span> <span class="fu"><a href="../reference/step_run.html">step_run</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="va"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span>, <span class="st">"data"</span>, .label <span class="op">=</span> <span class="st">"fs::dir_create"</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/step_run.html">step_run</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="va"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span>, <span class="st">"data"</span>, .label <span class="op">=</span> <span class="st">"fs::dir_create"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/use_theme.html">use_theme</a></span><span class="op">(</span><span class="fu">my_analysis</span><span class="op">(</span>extra_ignores <span class="op">=</span> <span class="st">"*.csv"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/claude_r_analysis.html">claude_r_analysis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">}</span></span></code></pre></div>
 <p>Because themes are just functions, parameters give you conditional
 behavior for free. <code>NULL</code> arguments to
 <code><a href="../reference/new_theme.html">new_theme()</a></code> are silently dropped, so
 <code>if (cond) step(...)</code> works naturally.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_analysis_theme</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">use_data_dir</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">extra_ignores</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ignore_lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".Rproj.user"</span>, <span class="st">".Rhistory"</span>, <span class="st">".RData"</span>, <span class="va">extra_ignores</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/new_theme.html">new_theme</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/step_file.html">step_file</a></span><span class="op">(</span><span class="st">"~/my-templates/main.R"</span>, <span class="st">"main.R"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/step_text.html">step_text</a></span><span class="op">(</span><span class="va">ignore_lines</span>, <span class="st">".gitignore"</span>, strategy <span class="op">=</span> <span class="st">"union"</span><span class="op">)</span>,</span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">use_data_dir</span><span class="op">)</span> <span class="fu"><a href="../reference/step_run.html">step_run</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="va"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span>, <span class="st">"data"</span>, .label <span class="op">=</span> <span class="st">"fs::dir_create"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="source-helpers">Source helpers<a class="anchor" aria-label="anchor" href="#source-helpers"></a>
 </h3>
 <p><code><a href="../reference/from_dir.html">from_dir()</a></code> and <code><a href="../reference/from_package.html">from_package()</a></code> create
 step-builders that resolve source paths relative to a directory or an
 installed R package:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Resolve from a local directory</span></span>
 <span><span class="va">from_templates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/from_dir.html">from_dir</a></span><span class="op">(</span><span class="st">"~/my-templates"</span><span class="op">)</span></span>
 <span><span class="fu">from_templates</span><span class="op">(</span><span class="st">"header.md"</span>, <span class="st">"README.md"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Resolve from an installed package's inst/ directory</span></span>
-<span><span class="va">from_prefab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/from_package.html">from_package</a></span><span class="op">(</span><span class="st">"prefab"</span><span class="op">)</span></span>
-<span><span class="fu">from_prefab</span><span class="op">(</span><span class="st">"r_analysis/main.R"</span>, <span class="st">"main.R"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">from_my_package</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/from_package.html">from_package</a></span><span class="op">(</span><span class="st">"my_package"</span><span class="op">)</span></span>
+<span><span class="fu">from_my_package</span><span class="op">(</span><span class="st">"r_analysis/main.R"</span>, <span class="st">"main.R"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/from_dir.html">from_dir()</a></code> resolves its path to absolute at creation
 time, so later working directory changes do not affect it.
 <code><a href="../reference/from_package.html">from_package()</a></code> works with both installed packages and
 <code>devtools::load_all()</code>.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="distributing-themes-via-a-package">Distributing themes via a package<a class="anchor" aria-label="anchor" href="#distributing-themes-via-a-package"></a>
-</h2>
-<p>Put template files in a package’s <code>inst/</code> directory and
-use <code><a href="../reference/from_package.html">from_package()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># In mythemes/R/themes.R</span></span>
-<span><span class="co">#' @export</span></span>
-<span><span class="va">my_org_analysis</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/from_package.html">from_package</a></span><span class="op">(</span><span class="st">"mythemes"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="../reference/new_theme.html">new_theme</a></span><span class="op">(</span></span>
-<span>    <span class="fu">f</span><span class="op">(</span><span class="st">"templates/main.R"</span>, <span class="st">"main.R"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span><span class="op">)</span>,</span>
-<span>    <span class="fu">f</span><span class="op">(</span><span class="st">"templates/README.md"</span>, <span class="st">"README.md"</span>, strategy <span class="op">=</span> <span class="st">"skip"</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    <span class="fu">f</span><span class="op">(</span><span class="st">"claude/settings.json"</span>, <span class="st">".claude/settings.json"</span>, strategy <span class="op">=</span> <span class="st">"merge_json"</span><span class="op">)</span>,</span>
-<span>    <span class="fu">f</span><span class="op">(</span><span class="st">"claude/rules/conventions.md"</span>, <span class="st">".claude/rules/conventions.md"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="inspecting-themes-with-theme_code">Inspecting themes with <code>theme_code()</code><a class="anchor" aria-label="anchor" href="#inspecting-themes-with-theme_code"></a>
-</h2>
-<p><code><a href="../reference/theme_code.html">theme_code()</a></code> prints R code that reproduces a theme –
-useful for understanding built-in themes or as a starting point for
-customization:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/theme_code.html">theme_code</a></span><span class="op">(</span><span class="fu"><a href="../reference/claude_r_analysis.html">claude_r_analysis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; new_theme(</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   from_package("prefab")("claude/settings.json", ".claude/settings.json", strategy = "merge_json"),</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   from_package("prefab")("claude/rules/r_analysis.md", ".claude/rules/r_analysis.md"),</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   step_text(c(".Rproj.user", ".Rhistory", ".RData", ".DS_Store"), ".gitignore", strategy = "union")</span></span>
-<span><span class="co">#&gt; )</span></span></code></pre></div>
-<p>Copy the output, edit it into your own theme function, and swap out
-or add steps. The code is also returned invisibly as a string.</p>
-</div>
-<div class="section level2">
-<h2 id="merge-strategies">Merge strategies<a class="anchor" aria-label="anchor" href="#merge-strategies"></a>
-</h2>
+<div class="section level3">
+<h3 id="merge-strategies">Merge strategies<a class="anchor" aria-label="anchor" href="#merge-strategies"></a>
+</h3>
 <p>Every file step declares a <strong>strategy</strong> for handling
 pre-existing destination files. Strategies are what make
 <code><a href="../reference/use_theme.html">use_theme()</a></code> safe to re-run.</p>
@@ -335,12 +304,12 @@ destination value).</li>
 re-runs.</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="template-rendering">Template rendering<a class="anchor" aria-label="anchor" href="#template-rendering"></a>
-</h2>
+<div class="section level3">
+<h3 id="template-rendering">Template rendering<a class="anchor" aria-label="anchor" href="#template-rendering"></a>
+</h3>
 <p>File steps support <code>{{var}}</code> interpolation when
 <code>data</code> is non-NULL:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">from_templates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/from_dir.html">from_dir</a></span><span class="op">(</span><span class="st">"~/my-templates"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/new_theme.html">new_theme</a></span><span class="op">(</span></span>
 <span>  <span class="co"># data = list() enables rendering with auto-discovered variables only</span></span>
@@ -388,6 +357,50 @@ referenced but not available, rendering fails with an informative
 error.</p>
 <p><code><a href="../reference/step_text.html">step_text()</a></code> does not support <code>data</code> – inline
 content can interpolate R variables directly.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="sharing-and-re-using-custom-themes">Sharing and re-using custom themes<a class="anchor" aria-label="anchor" href="#sharing-and-re-using-custom-themes"></a>
+</h2>
+<p><strong>Source a file.</strong> Save theme functions in an external
+script and source them. This can of course be any external script, or
+you can put themes in <code>~/.prefab-themes.R</code> which is sourced
+by the function <code><a href="../reference/load_themes.html">load_themes()</a></code>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/load_themes.html">load_themes</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/use_theme.html">use_theme</a></span><span class="op">(</span><span class="fu">my_analysis_theme</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Ship in a package.</strong> This package ships with several
+basic themes, and you can add themes (which are just functions) to your
+own package. Using a package is best sharing themes across an
+organization.</p>
+<p>When writing a theme function for your own package, place template
+files in <code>inst/</code> and use <code><a href="../reference/from_package.html">from_package()</a></code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  from_my_package <span class="ot">&lt;-</span> <span class="fu">from_package</span>(<span class="st">"my_package"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">new_theme</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="fu">from_my_package</span>(<span class="st">"main.R"</span>, <span class="st">"main.R"</span>, <span class="at">strategy =</span> <span class="st">"skip"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    <span class="fu">from_my_package</span>(<span class="st">"README.md"</span>, <span class="st">"README.md"</span>, <span class="at">strategy =</span> <span class="st">"skip"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  )</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="inspecting-themes-with-theme_code">Inspecting themes with <code>theme_code()</code><a class="anchor" aria-label="anchor" href="#inspecting-themes-with-theme_code"></a>
+</h2>
+<p><code><a href="../reference/theme_code.html">theme_code()</a></code> prints R code that reproduces a theme –
+useful for understanding built-in themes or as a starting point for
+customization:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/theme_code.html">theme_code</a></span><span class="op">(</span><span class="fu"><a href="../reference/claude_r_analysis.html">claude_r_analysis</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; new_theme(</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   from_package("prefab")("claude/settings.json", ".claude/settings.json", strategy = "merge_json"),</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   from_package("prefab")("claude/rules/r_analysis.md", ".claude/rules/r_analysis.md"),</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   step_text(c(".Rproj.user", ".Rhistory", ".RData", ".DS_Store"), ".gitignore", strategy = "union")</span></span>
+<span><span class="co">#&gt; )</span></span></code></pre></div>
+<p>Copy the output, edit it into your own theme function, and swap out
+or add steps. The code is also returned invisibly as a string.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
