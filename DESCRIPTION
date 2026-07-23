@@ -1,6 +1,6 @@
 Package: prefab
 Title: Opinionated Project Scaffolding via Composable Themes
-Version: 0.4.0
+Version: 0.5.0
 Authors@R:
     c(person(given = "Ben",
              family = "Zipperer",
@@ -16,7 +16,6 @@ Description: Provides a composable theme system for project scaffolding. Themes
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 URL: https://economic.github.io/prefab/, https://github.com/Economic/prefab
 BugReports: https://github.com/Economic/prefab/issues
 Config/testthat/edition: 3
@@ -36,3 +35,4 @@ Suggests:
     yaml
 VignetteBuilder: knitr
 Config/Needs/website: economic/epitemplate
+Config/roxygen2/version: 8.0.0

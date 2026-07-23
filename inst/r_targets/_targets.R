@@ -4,7 +4,6 @@ tar_source()
 ## pipeline
 ## targets must end in a target object like tar_target()
 tar_assign({
-  # target_name <- arg |>
-  #   function_to_make2() |>
+  # target_name <- some_function(arg) |>
   #   tar_target()
 })

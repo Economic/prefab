@@ -7,7 +7,7 @@
 from_dir(path)
 }
 \arguments{
-\item{path}{Path to the directory. Resolved to absolute via \code{\link[fs:path_math]{fs::path_abs()}}
+\item{path}{Path to the directory. Resolved to absolute via \code{\link[fs:path_abs]{fs::path_abs()}}
 at creation time. Must exist.}
 }
 \value{

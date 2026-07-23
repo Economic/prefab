@@ -4,21 +4,27 @@
 \alias{create_project}
 \title{Create a new project and apply a theme}
 \usage{
-create_project(path, theme)
+create_project(path, theme, open = rlang::is_interactive())
 }
 \arguments{
 \item{path}{Path for the new project directory. Resolved to an absolute path
-via \code{\link[fs:path_math]{fs::path_abs()}}.}
+via \code{\link[fs:path_abs]{fs::path_abs()}}.}
 
 \item{theme}{A \code{prefab_theme} object created by \code{\link[=new_theme]{new_theme()}} or a pre-set
 theme function.}
+
+\item{open}{Whether to activate the new project after creating it. Defaults
+to \code{\link[rlang:is_interactive]{rlang::is_interactive()}}, so it opens interactively but stays inert in
+scripts, tests, and non-interactive callers.}
 }
 \value{
 The normalized project path (invisibly).
 }
 \description{
-Creates a new project directory and applies a theme to it. If RStudio is
-available, opens the new project in a new session.
+Creates a new project directory and applies a theme to it. When \code{open} is
+\code{TRUE}, the new project is activated: in editors that support it (RStudio,
+Positron) it opens in a new session/window; otherwise the working directory
+is changed into the new project in the current session.
 }
 \examples{
 \dontrun{

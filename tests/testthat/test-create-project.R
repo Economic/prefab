@@ -70,3 +70,27 @@ test_that("returns normalized path invisibly", {
   expect_invisible(create_project(file.path(tmp, "project2"), theme))
   expect_equal(result, fs::path_abs(project_path))
 })
+
+test_that("open = FALSE does not change the working directory", {
+  tmp <- withr::local_tempdir()
+  withr::local_dir(tmp)
+  project_path <- file.path(tmp, "project")
+
+  theme <- new_theme()
+  create_project(project_path, theme, open = FALSE)
+
+  expect_equal(fs::path_abs(getwd()), fs::path_abs(tmp))
+})
+
+test_that("open = TRUE falls back to setwd when no session opener is available", {
+  # In a non-interactive test run rstudioapi is not available, so activate
+  # takes the setwd() fallback branch rather than opening a new session.
+  tmp <- withr::local_tempdir()
+  withr::local_dir(tmp)
+  project_path <- file.path(tmp, "project")
+
+  theme <- new_theme()
+  create_project(project_path, theme, open = TRUE)
+
+  expect_equal(fs::path_abs(getwd()), fs::path_abs(project_path))
+})

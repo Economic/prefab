@@ -1,3 +1,6 @@
+# prefab 0.5.0
+* `create_project()` gains an `open` argument (default `rlang::is_interactive()`) controlling whether the new project is activated; follows usethis patterns and fixes VS Code specific bugs.
+
 # prefab 0.4.0
 * change `theme_from_dir` default strategy to "skip"
 * reference `CLAUDE.md` as source of truth in `claude_r_analysis()`

@@ -22,6 +22,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Ben Zipperer \email{benzipperer@gmail.com}
 
+Authors:
+\itemize{
+  \item Ben Zipperer \email{benzipperer@gmail.com}
+}
+
 Other contributors:
 \itemize{
   \item Economic Policy Institute [copyright holder, funder]

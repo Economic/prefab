@@ -8,7 +8,7 @@ theme_from_dir(path, strategy = "skip")
 }
 \arguments{
 \item{path}{Path to a directory of template files. Resolved to an absolute
-path via \code{\link[fs:path_math]{fs::path_abs()}}. Must exist.}
+path via \code{\link[fs:path_abs]{fs::path_abs()}}. Must exist.}
 
 \item{strategy}{Default merge strategy for all files. Can be overridden
 per file via a \verb{_prefab.yml} sidecar. One of \code{"overwrite"}, \code{"skip"},

@@ -26,7 +26,7 @@ Development (0.0.0.9000). Core theme system is fully implemented. All exported f
 - `new_theme(...)` — construct a theme from step objects
 - `theme_from_dir(path, strategy = "skip")` — create a theme from a directory tree, with optional `_prefab.yml` sidecar
 - `use_theme(theme)` — apply a theme to the current project
-- `create_project(path, theme)` — create a directory and apply a theme
+- `create_project(path, theme, open = rlang::is_interactive())` — create a directory and apply a theme; when `open` is `TRUE`, activate the project (new session/window in RStudio/Positron, else `setwd()` fallback), following the usethis `proj_activate()` pattern
 - `theme_code(theme)` — print the R code that reproduces a theme (for copy-paste customization)
 - `load_themes(file = NULL)` — source custom theme definitions from a file (`PREFAB_THEMES` env var or `~/.prefab-themes.R`)
 
