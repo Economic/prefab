@@ -1,9 +1,11 @@
-## library() calls go here
+## preliminaries
 library(conflicted)
 library(targets)
 library(tarchetypes)
 
-## examples
+## settings
 # options(tidyverse.quiet = TRUE)
+# conflicts_prefer(dplyr::filter, dplyr::lag, .quiet = TRUE)
+
+## packages
 # library(tidyverse)
-# conflict_prefers(dplyr::filter, dplyr::lag, .quiet = TRUE)
