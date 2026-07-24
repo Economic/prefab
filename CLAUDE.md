@@ -1,10 +1,6 @@
 # prefab
 
-An R package providing opinionated project scaffolding via a composable theme system. A major use case is standardizing project setup and conventions for data analysis at the Economic Policy Institute (EPI), but the configurations are useful for any data analysis project.
-
-## Status
-
-Development (0.0.0.9000). Core theme system is fully implemented. All exported functions are working with 244 passing tests and clean R CMD check.
+An R package providing opinionated project scaffolding via a composable theme system. The major use case is standardizing project setup and conventions for data analysis.
 
 ## Core concepts
 
@@ -27,13 +23,14 @@ Development (0.0.0.9000). Core theme system is fully implemented. All exported f
 - `theme_from_dir(path, strategy = "skip")` — create a theme from a directory tree, with optional `_prefab.yml` sidecar
 - `use_theme(theme)` — apply a theme to the current project
 - `create_project(path, theme, open = rlang::is_interactive())` — create a directory and apply a theme; when `open` is `TRUE`, activate the project (new session/window in RStudio/Positron, else `setwd()` fallback), following the usethis `proj_activate()` pattern
+- `launch_project(theme, root, date = FALSE, slug, open, label = NULL)` — interactive project launcher intended to be bound to an editor key chord via `workbench.action.executeCode.console`. `theme` is required (no default), so each chord names the theme it applies. Prompts for a name via `rstudioapi::showPrompt()` (guarded by `hasFun()`), builds the path via internal `build_project_path()`, then calls `create_project()`. `root` defaults to option `prefab.project_root` (`~`), `slug` to option `prefab.project_slug` (`TRUE`); `date = TRUE` nests under a `YYYY-MM-DD` subdirectory. `label` sets the prompt window title (default `"New project folder"`) to show which theme a chord applies (theme objects don't retain their constructor names, so the label is passed by the caller)
 - `theme_code(theme)` — print the R code that reproduces a theme (for copy-paste customization)
 - `load_themes(file = NULL)` — source custom theme definitions from a file (`PREFAB_THEMES` env var or `~/.prefab-themes.R`)
 
 ## Pre-set themes
 
-- `r_analysis()`, `r_targets()` — project structure scaffolding
-- `claude_r_analysis()`, `claude_r_targets()` — Claude Code agent config
+- `r_analysis(data_dirs = TRUE)`, `r_targets()` — project structure scaffolding
+- `claude_r_analysis(settings_json = TRUE)`, `claude_r_targets(settings_json = TRUE)`, `claude_r_package()` — Claude Code agent config
 
 ## Project structure
 
@@ -49,33 +46,28 @@ R/
   execute.R               # execute_theme()
   use-theme.R             # use_theme()
   create-project.R        # create_project()
+  launch-project.R        # launch_project(), build_project_path()
   load-themes.R           # load_themes()
   theme-from-dir.R        # theme_from_dir()
   themes-project.R        # r_analysis(), r_targets(), gitignore_lines
-  themes-claude.R         # claude_r_analysis(), claude_r_targets()
+  themes-claude.R         # claude_r_analysis(), claude_r_targets(), claude_r_package()
 inst/
   claude/                 # Agent config files deployed by Claude themes
     settings.json         # Claude Code permission settings
     rules/                # Agent convention files (one per project type)
       r_analysis.md       # Conventions for analysis projects
-      r_package.md        # Conventions for package development (deferred theme)
+      r_package.md        # Conventions for package development
       r_targets.md        # Conventions for targets workflows
-    skills/               # Claude Code skills (deferred themes)
+    skills/               # Claude Code skills
+      targets-branching/  # Skill deployed by claude_r_targets()
   r_analysis/             # Template files deployed by r_analysis()
   r_targets/              # Template files deployed by r_targets()
-plans/                    # Design and implementation plans
-tests/testthat/           # Tests (232 tests across 11 test files)
+tests/testthat/           # Tests
 ```
-
-## Planning documents
-
-1. `plans/2026-03-04-architecture.md` — full design reference
-2. `plans/2026-03-04-implementation.md` — phased implementation tasks
-3. `plans/2026-03-06-included-themes.md` — what themes ship and what they deploy
 
 ## Future work
 
-- **Deferred themes.** `claude_r_package()`, `r_package()`, and `epi_economics_data()` are designed but deferred from the initial release. See `plans/2026-03-06-included-themes.md` for details.
+- **Deferred themes.** `r_package()` and `epi_economics_data()` are designed but deferred from the initial release. (`claude_r_package()` has shipped.)
 - **GitHub source helper.** A source helper that downloads files from a GitHub repository could enable organizations to maintain a central config repo or pull skills from public repos without requiring an R package. No design work has been done; API, caching, and scope are all open questions to investigate if the need arises.
 
 ## Conventions

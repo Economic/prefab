@@ -1,15 +1,16 @@
 #' Create a new project and apply a theme
 #'
-#' Creates a new project directory and applies a theme to it. When `open` is
-#' `TRUE`, the new project is activated: in editors that support it (RStudio,
-#' Positron) it opens in a new session/window; otherwise the working directory
-#' is changed into the new project in the current session.
+#' Creates a new project directory and applies a theme to it.
 #'
 #' @param path Path for the new project directory. Resolved to an absolute path
 #'   via [fs::path_abs()].
 #' @param theme A `prefab_theme` object created by [new_theme()] or a pre-set
 #'   theme function.
-#' @param open Whether to activate the new project after creating it. Defaults
+#' @param open Whether to activate the new project after creating it, following
+#'   the convention of [usethis::create_project()] and
+#'   [usethis::create_package()]: when `TRUE`, the project opens in a new
+#'   session/window in RStudio/Positron, or in other editors the working
+#'   directory of the active session is changed into the new project. Defaults
 #'   to [rlang::is_interactive()], so it opens interactively but stays inert in
 #'   scripts, tests, and non-interactive callers.
 #'

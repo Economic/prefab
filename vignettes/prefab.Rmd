@@ -7,7 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
+
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 local({
@@ -23,24 +25,37 @@ local({
 
 ## Basics
 
-The goal of prefab is to make it easier for you to set up files and directories you need for a given project. You can think of the project scaffolding--like README files and directory structures--as a *theme* you want to apply to a new or existing project directory. 
+The goal of prefab is to make it easier for you to set up files and directories
+you need for a given project. You can think of the project scaffolding--like
+README files and directory structures--as a *theme* you want to apply to a new
+or existing project directory.
 
 ### Viewing and applying themes
 
-For example, `r_analysis()` is a prefab theme shipped with this package to provide scaffolding for a simple R data analysis project. To understand what it does, simply call the theme to show the outline of steps:
+For example, `r_analysis()` is a prefab theme shipped with this package to
+provide scaffolding for a simple R data analysis project. To understand what it
+does, simply call the theme to show the outline of steps:
 
-```{r call_theme}
+```{r}
+#| label: call_theme
+
 library(prefab)
 
 r_analysis()
 ```
 
-Nothing happens to the file system until you pass the theme to `use_theme()` or `create_project()`.
-Above, the `r_analysis()` theme indicated that it contains five steps: two create directories, and three write files. File steps also contain a merge strategy shown in `()` for handling pre-existing destination files.
+Nothing happens to the file system until you pass the theme to `use_theme()` or
+`create_project()`. Above, the `r_analysis()` theme indicated that it contains
+five steps: two create directories, and three write files. File steps also
+contain a merge strategy shown in `()` for handling pre-existing destination
+files.
 
-Pass the theme to `create_project()` to create a new project folder with that scaffolding.
+Pass the theme to `create_project()` to create a new project folder with that
+scaffolding.
 
-```{r create_example, display_code = 'create_project(tempfile("my-analysis-project"), r_analysis())'}
+```{r, display_code='create_project(tempfile("my-analysis-project"), r_analysis())'}
+#| label: create_example
+
 withr::with_tempdir({
   app <- cli::start_app(output = "stdout", .auto_close = FALSE)
   create_project(tempfile("my-analysis-project"), r_analysis())
@@ -48,11 +63,16 @@ withr::with_tempdir({
 })
 ```
 
-That created a directory called `~/my-analysis-project` and added two new subdirectories and three new files. Then (assuming you are using Positron or Rstudio) it opened the project in a new session.
+That created a directory called `~/my-analysis-project` and added two new
+subdirectories and three new files. Then (assuming you are using Positron or
+Rstudio) it opened the project in a new session.
 
-Instead of creating a new project directory, you can also apply a theme to your current project with `use_theme()`:
+Instead of creating a new project directory, you can also apply a theme to your
+current project with `use_theme()`:
 
-```{r use_example, display_code = "use_theme(r_analysis())"}
+```{r, display_code="use_theme(r_analysis())"}
+#| label: use_example
+
 withr::with_tempdir({
   file.create(".here")
   app <- cli::start_app(output = "stdout", .auto_close = FALSE)
@@ -61,11 +81,18 @@ withr::with_tempdir({
 })
 ```
 
+Alternatively you may find it useful to create and launch a new project via a
+keyboard shortcut mapped to `launch_project()`.
+
 ### Composing themes with `+` and arguments
 
-A prefab theme is a function that returns an ordered list of steps that modify files and paths, or run other functions Because themes are just functions, they can have arguments and you can compose them with `+`, concatenating their steps.
+A prefab theme is a function that returns an ordered list of steps that modify
+files and paths, or run other functions Because themes are just functions, they
+can have arguments and you can compose them with `+`, concatenating their steps.
 
-```{r compose, display_code = "use_theme(r_analysis(data_dirs = FALSE) + claude_r_analysis())"}
+```{r, display_code="use_theme(r_analysis(data_dirs = FALSE) + claude_r_analysis())"}
+#| label: compose
+
 withr::with_tempdir({
   file.create(".here")
   app <- cli::start_app(output = "stdout", .auto_close = FALSE)
@@ -80,9 +107,14 @@ Steps run left to right.
 
 There are three ways to build your own theme:
 
-**From a directory of files.** Arrange template files in a folder and `theme_from_dir()` turns them into a theme. For example, put your desired template files in the folder `~/my-project-structure`:
+**From a directory of files.** Arrange template files in a folder and
+`theme_from_dir()` turns them into a theme. For example, put your desired
+template files in the folder `~/my-project-structure`:
 
-```{r theme-from-dir-setup, echo = FALSE}
+```{r}
+#| label: theme-from-dir-setup
+#| echo: false
+
 # Create a small directory of template files
 theme_dir <- file.path(tempdir(), "my-project-structure")
 fs::dir_create(file.path(theme_dir, "R"))
@@ -92,7 +124,7 @@ writeLines("# My Project\n", file.path(theme_dir, "README.md"))
 writeLines("# analysis code here", file.path(theme_dir, "R", "analysis.R"))
 ```
 
-``` r
+```r
 ├── data
 ├── R
 │   └── analysis.R
@@ -100,9 +132,12 @@ writeLines("# analysis code here", file.path(theme_dir, "R", "analysis.R"))
 └── README.md
 ```
 
-Use `theme_from_dir()` to turn them into a theme, and then apply them to a new or existing project:
+Use `theme_from_dir()` to turn them into a theme, and then apply them to a new
+or existing project:
 
-```{r theme-from-dir-apply, display_code = 'my_theme <- theme_from_dir("~/my-project-structure")\nuse_theme(my_theme)'}
+```{r, display_code='my_theme <- theme_from_dir("~/my-project-structure")\nuse_theme(my_theme)'}
+#| label: theme-from-dir-apply
+
 my_theme <- theme_from_dir(theme_dir)
 
 withr::with_tempdir({
@@ -113,19 +148,22 @@ withr::with_tempdir({
 })
 ```
 
-An optional `_prefab.yml` sidecar controls per-file merge strategies and template data.
+An optional `_prefab.yml` sidecar controls per-file merge strategies and
+template data.
 
-**By composing existing themes.** Combine and extend built-in or custom themes with `+`:
+**By composing existing themes.** Combine and extend built-in or custom themes
+with `+`:
 
-``` r
+```r
 my_theme <- theme_from_dir("~/my-extras") + claude_r_analysis()
 ```
 
 Themes are combined left to right.
 
-**From steps.** Build themes programmatically with `step_file()`, `step_text()`, and `step_run()`:
+**From steps.** Build themes programmatically with `step_file()`, `step_text()`,
+and `step_run()`:
 
-``` r
+```r
 my_theme <- function() {
   new_theme(
     step_file("~/my_themes/header.R", "R/header.R"),
@@ -137,7 +175,8 @@ my_theme <- function() {
 
 ## Writing themes from steps
 
-A prefab theme is a function that returns an ordered list of steps that modify files and paths, or run other functions.
+A prefab theme is a function that returns an ordered list of steps that modify
+files and paths, or run other functions.
 
 The three step types are:
 
@@ -145,7 +184,10 @@ The three step types are:
 - `step_text(content, dest)` -- deploy inline text
 - `step_run(fn, ...)` -- execute a function for its side effects
 
-```{r custom, eval = FALSE}
+```{r}
+#| label: custom
+#| eval: false
+
 my_analysis_theme <- function() {
   ignore_lines <- c(".Rproj.user", ".Rhistory", ".RData")
   new_theme(
@@ -156,11 +198,14 @@ my_analysis_theme <- function() {
 }
 ```
 
-Because themes are just functions, parameters give you conditional behavior
-for free. `NULL` arguments to `new_theme()` are silently dropped, so
+Because themes are just functions, parameters give you conditional behavior for
+free. `NULL` arguments to `new_theme()` are silently dropped, so
 `if (cond) step(...)` works naturally.
 
-```{r custom_conditional, eval = FALSE}
+```{r}
+#| label: custom_conditional
+#| eval: false
+
 my_analysis_theme <- function(use_data_dir = TRUE, extra_ignores = character(0)) {
   ignore_lines <- c(".Rproj.user", ".Rhistory", ".RData", extra_ignores)
   new_theme(
@@ -173,10 +218,13 @@ my_analysis_theme <- function(use_data_dir = TRUE, extra_ignores = character(0))
 
 ### Source helpers
 
-`from_dir()` and `from_package()` create step-builders that resolve source
-paths relative to a directory or an installed R package:
+`from_dir()` and `from_package()` create step-builders that resolve source paths
+relative to a directory or an installed R package:
 
-```{r source-helpers, eval = FALSE}
+```{r}
+#| label: source-helpers
+#| eval: false
+
 # Resolve from a local directory
 from_templates <- from_dir("~/my-templates")
 from_templates("header.md", "README.md", strategy = "skip")
@@ -195,13 +243,13 @@ packages and `devtools::load_all()`.
 Every file step declares a **strategy** for handling pre-existing destination
 files. Strategies are what make `use_theme()` safe to re-run.
 
-| Strategy | Behavior | Idempotent | Typical use |
-|---|---|---|---|
-| `"overwrite"` | Replace the file entirely | Yes | Managed config files |
-| `"skip"` | Do nothing if file exists | Yes | Starter files users will edit |
-| `"union"` | Append lines not already present | Yes | `.gitignore`, `.Rbuildignore` |
-| `"append"` | Append all content unconditionally | No | Rare; prefer `"union"` |
-| `"merge_json"` | Recursively merge JSON objects | Yes | `.claude/settings.json` |
+  | Strategy       | Behavior                           | Idempotent | Typical use                   |
+  | -------------- | ---------------------------------- | ---------- | ----------------------------- |
+  | `"overwrite"`  | Replace the file entirely          | Yes        | Managed config files          |
+  | `"skip"`       | Do nothing if file exists          | Yes        | Starter files users will edit |
+  | `"union"`      | Append lines not already present   | Yes        | `.gitignore`, `.Rbuildignore` |
+  | `"append"`     | Append all content unconditionally | No         | Rare; prefer `"union"`        |
+  | `"merge_json"` | Recursively merge JSON objects     | Yes        | `.claude/settings.json`       |
 
 Guidelines for choosing:
 
@@ -216,7 +264,10 @@ Guidelines for choosing:
 
 File steps support `{{var}}` interpolation when `data` is non-NULL:
 
-```{r template, eval = FALSE}
+```{r}
+#| label: template
+#| eval: false
+
 from_templates <- from_dir("~/my-templates")
 new_theme(
   # data = list() enables rendering with auto-discovered variables only
@@ -229,12 +280,12 @@ new_theme(
 
 Auto-discovered variables (built once per `use_theme()` call):
 
-| Variable | Source |
-|---|---|
-| `project_dir` | Name of the project root directory |
-| `package_name` | `Package` field from DESCRIPTION, or `project_dir` |
-| `year` | Current year |
-| `date` | Current date (`YYYY-MM-DD`) |
+  | Variable       | Source                                             |
+  | -------------- | -------------------------------------------------- |
+  | `project_dir`  | Name of the project root directory                 |
+  | `package_name` | `Package` field from DESCRIPTION, or `project_dir` |
+  | `year`         | Current year                                       |
+  | `date`         | Current date (`YYYY-MM-DD`)                        |
 
 A template file like:
 
@@ -253,16 +304,21 @@ variables directly.
 
 ## Sharing and re-using custom themes
 
-**Source a file.** Save theme functions in an external script and source them. This can of course be any external script, or you can put themes in `~/.prefab-themes.R` which is sourced by the function `load_themes()`:
+**Source a file.** Save theme functions in an external script and source them.
+This can of course be any external script, or you can put themes in
+`~/.prefab-themes.R` which is sourced by the function `load_themes()`:
 
-``` r
+```r
 load_themes()
 use_theme(my_analysis_theme())
 ```
 
-**Ship in a package.** This package ships with several basic themes, and you can add themes (which are just functions) to your own package. Using a package is best sharing themes across an organization.
+**Ship in a package.** This package ships with several basic themes, and you can
+add themes (which are just functions) to your own package. Using a package is
+best sharing themes across an organization.
 
-When writing a theme function for your own package, place template files in `inst/` and use `from_package()`.
+When writing a theme function for your own package, place template files in
+`inst/` and use `from_package()`.
 
 ```r
 my_theme <- function() {
@@ -279,12 +335,11 @@ my_theme <- function() {
 `theme_code()` prints R code that reproduces a theme -- useful for understanding
 built-in themes or as a starting point for customization:
 
-```{r theme-code}
+```{r}
+#| label: theme-code
+
 theme_code(claude_r_analysis())
 ```
 
 Copy the output, edit it into your own theme function, and swap out or add
 steps. The code is also returned invisibly as a string.
-
-
-

@@ -1,5 +1,7 @@
 # prefab 0.5.0
+* New `launch_project()` is an interactive project launcher designed to be bound to an editor keyboard shortcut: it prompts for a name via `rstudioapi::showPrompt()`, builds a path under a configurable `root` (the home directory by default, slugifying the name), and scaffolds and opens the project with a chosen theme. Set `date = TRUE` for dated one-off projects (e.g. `~/scratchpad/2026-07-23/name`).
 * `create_project()` gains an `open` argument (default `rlang::is_interactive()`) controlling whether the new project is activated; follows usethis patterns and fixes VS Code specific bugs.
+* small tweaks to `r_targets()` and `claude_r_package()` themes
 
 # prefab 0.4.0
 * change `theme_from_dir` default strategy to "skip"

@@ -12,6 +12,7 @@ To run code from the package, `Rscript -e "devtools::load_all(); code"`.
 After any changes to the package:
 - Run all tests: `Rscript -e "devtools::test()"`
 - Re-document: `Rscript -e "devtools::document()"`
+- Rebuild README.Rmd if present: `Rscript -e "devtools::build_readme()"`
 - Check pkgdown: `Rscript -e "pkgdown::check_pkgdown()"`
 - Use R CMD Check: `Rscript -e "devtools::check()"`
 

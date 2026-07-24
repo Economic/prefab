@@ -13,7 +13,11 @@ via \code{\link[fs:path_abs]{fs::path_abs()}}.}
 \item{theme}{A \code{prefab_theme} object created by \code{\link[=new_theme]{new_theme()}} or a pre-set
 theme function.}
 
-\item{open}{Whether to activate the new project after creating it. Defaults
+\item{open}{Whether to activate the new project after creating it, following
+the convention of \code{\link[usethis:create_project]{usethis::create_project()}} and
+\code{\link[usethis:create_package]{usethis::create_package()}}: when \code{TRUE}, the project opens in a new
+session/window in RStudio/Positron, or in other editors the working
+directory of the active session is changed into the new project. Defaults
 to \code{\link[rlang:is_interactive]{rlang::is_interactive()}}, so it opens interactively but stays inert in
 scripts, tests, and non-interactive callers.}
 }
@@ -21,10 +25,7 @@ scripts, tests, and non-interactive callers.}
 The normalized project path (invisibly).
 }
 \description{
-Creates a new project directory and applies a theme to it. When \code{open} is
-\code{TRUE}, the new project is activated: in editors that support it (RStudio,
-Positron) it opens in a new session/window; otherwise the working directory
-is changed into the new project in the current session.
+Creates a new project directory and applies a theme to it.
 }
 \examples{
 \dontrun{
