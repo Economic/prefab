@@ -1,5 +1,27 @@
 # Changelog
 
+## prefab 0.5.0
+
+- New
+  [`launch_project()`](https://economic.github.io/prefab/reference/launch_project.md)
+  is an interactive project launcher designed to be bound to an editor
+  keyboard shortcut: it prompts for a name via
+  [`rstudioapi::showPrompt()`](https://rstudio.github.io/rstudioapi/reference/showPrompt.html),
+  builds a path under a configurable `root` (the home directory by
+  default, slugifying the name), and scaffolds and opens the project
+  with a chosen theme. Set `date = TRUE` for dated one-off projects
+  (e.g. `~/scratchpad/2026-07-23/name`).
+- [`create_project()`](https://economic.github.io/prefab/reference/create_project.md)
+  gains an `open` argument (default
+  [`rlang::is_interactive()`](https://rlang.r-lib.org/reference/is_interactive.html))
+  controlling whether the new project is activated; follows usethis
+  patterns and fixes VS Code specific bugs.
+- small tweaks to
+  [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md)
+  and
+  [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)
+  themes
+
 ## prefab 0.4.0
 
 - change `theme_from_dir` default strategy to “skip”

@@ -12,6 +12,7 @@ or
 ## Installation
 
 ``` r
+
 install.packages(
   "prefab",
   repos = c("https://economic.r-universe.dev", getOption("repos"))
@@ -23,6 +24,7 @@ install.packages(
 Create a new project with scaffolding and Claude Code config:
 
 ``` r
+
 library(prefab)
 
 create_project("~/projects/my-analysis", r_analysis())
@@ -36,6 +38,7 @@ create_project("~/projects/my-analysis", r_analysis())
 Add a theme to an existing project:
 
 ``` r
+
 use_theme(claude_r_analysis())
 #> ✔ Writing '.claude/settings.json' (new)
 #> ✔ Writing '.claude/rules/r_analysis.md' (new)
@@ -44,19 +47,20 @@ use_theme(claude_r_analysis())
 
 ## Built-in themes
 
-| Theme                                                                                     | Description                                                         |
-|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| [`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md)               | `main.R`, `README.md`, `.gitignore`, `data_raw/`, `data_processed/` |
-| [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md)                 | `_targets.R`, `packages.R`, `README.md`, `R/` dir, `.gitignore`     |
-| [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md) | Claude Code settings and rules for data analysis projects           |
-| [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md)   | Claude Code settings and rules for R packages                       |
-| [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md)   | Claude Code settings and rules for targets projects                 |
+| Theme | Description |
+|----|----|
+| [`r_analysis()`](https://economic.github.io/prefab/reference/r_analysis.md) | `main.R`, `README.md`, `.gitignore`, `data_raw/`, `data_processed/` |
+| [`r_targets()`](https://economic.github.io/prefab/reference/r_targets.md) | `_targets.R`, `packages.R`, `README.md`, `R/` dir, `.gitignore` |
+| [`claude_r_analysis()`](https://economic.github.io/prefab/reference/claude_r_analysis.md) | Claude Code settings and rules for data analysis projects |
+| [`claude_r_package()`](https://economic.github.io/prefab/reference/claude_r_package.md) | Claude Code settings and rules for R packages |
+| [`claude_r_targets()`](https://economic.github.io/prefab/reference/claude_r_targets.md) | Claude Code settings and rules for targets projects |
 
 ## Composition
 
 Themes compose with `+`. Steps execute left-to-right:
 
 ``` r
+
 theme <- r_targets() + claude_r_targets()
 
 create_project("my-project", theme)
@@ -83,6 +87,7 @@ prefer. There are three ways to build your own themes:
 turns them into a theme.
 
 ``` r
+
 my_theme <- theme_from_dir("~/my-project-layout")
 ```
 
@@ -93,6 +98,7 @@ and
 [`step_run()`](https://economic.github.io/prefab/reference/step_run.md):
 
 ``` r
+
 my_theme <- function() {
   new_theme(
     step_file("~/my_themes/header.R", "R/header.R"),
@@ -106,6 +112,7 @@ my_theme <- function() {
 themes with `+`:
 
 ``` r
+
 my_theme <- theme_from_dir("~/my-project-layout") + claude_r_analysis() 
 ```
 
@@ -120,6 +127,7 @@ makes that easy: put themes in `~/.prefab-themes.R` (or set the
 to make them available.
 
 ``` r
+
 load_themes()
 use_theme(my_analysis_theme())
 ```

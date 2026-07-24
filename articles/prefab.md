@@ -16,6 +16,7 @@ simple R data analysis project. To understand what it does, simply call
 the theme to show the outline of steps:
 
 ``` r
+
 library(prefab)
 
 r_analysis()
@@ -43,6 +44,7 @@ Pass the theme to
 to create a new project folder with that scaffolding.
 
 ``` r
+
 create_project(tempfile("my-analysis-project"), r_analysis())
 #> ✔ Running fs::dir_create('data_raw')
 #> ✔ Running fs::dir_create('data_processed')
@@ -60,6 +62,7 @@ to your current project with
 [`use_theme()`](https://economic.github.io/prefab/reference/use_theme.md):
 
 ``` r
+
 use_theme(r_analysis())
 #> ✔ Running fs::dir_create('data_raw')
 #> ✔ Running fs::dir_create('data_processed')
@@ -67,6 +70,10 @@ use_theme(r_analysis())
 #> ✔ Writing README.md (new)
 #> ✔ Writing .gitignore (new)
 ```
+
+Alternatively you may find it useful to create and launch a new project
+via a keyboard shortcut mapped to
+[`launch_project()`](https://economic.github.io/prefab/reference/launch_project.md).
 
 ### Composing themes with `+` and arguments
 
@@ -76,6 +83,7 @@ functions, they can have arguments and you can compose them with `+`,
 concatenating their steps.
 
 ``` r
+
 use_theme(r_analysis(data_dirs = FALSE) + claude_r_analysis())
 #> ✔ Running fs::dir_create('data_raw')
 #> ✔ Running fs::dir_create('data_processed')
@@ -111,6 +119,7 @@ to turn them into a theme, and then apply them to a new or existing
 project:
 
 ``` r
+
 my_theme <- theme_from_dir("~/my-project-structure")
 use_theme(my_theme)
 #> ✔ Running fs::dir_create('data')
@@ -126,6 +135,7 @@ template data.
 themes with `+`:
 
 ``` r
+
 my_theme <- theme_from_dir("~/my-extras") + claude_r_analysis()
 ```
 
@@ -138,6 +148,7 @@ and
 [`step_run()`](https://economic.github.io/prefab/reference/step_run.md):
 
 ``` r
+
 my_theme <- function() {
   new_theme(
     step_file("~/my_themes/header.R", "R/header.R"),
@@ -159,6 +170,7 @@ The three step types are:
 - `step_run(fn, ...)` – execute a function for its side effects
 
 ``` r
+
 my_analysis_theme <- function() {
   ignore_lines <- c(".Rproj.user", ".Rhistory", ".RData")
   new_theme(
@@ -175,6 +187,7 @@ behavior for free. `NULL` arguments to
 are silently dropped, so `if (cond) step(...)` works naturally.
 
 ``` r
+
 my_analysis_theme <- function(use_data_dir = TRUE, extra_ignores = character(0)) {
   ignore_lines <- c(".Rproj.user", ".Rhistory", ".RData", extra_ignores)
   new_theme(
@@ -194,6 +207,7 @@ create step-builders that resolve source paths relative to a directory
 or an installed R package:
 
 ``` r
+
 # Resolve from a local directory
 from_templates <- from_dir("~/my-templates")
 from_templates("header.md", "README.md", strategy = "skip")
@@ -216,13 +230,13 @@ destination files. Strategies are what make
 [`use_theme()`](https://economic.github.io/prefab/reference/use_theme.md)
 safe to re-run.
 
-| Strategy       | Behavior                           | Idempotent | Typical use                   |
-|----------------|------------------------------------|------------|-------------------------------|
-| `"overwrite"`  | Replace the file entirely          | Yes        | Managed config files          |
-| `"skip"`       | Do nothing if file exists          | Yes        | Starter files users will edit |
-| `"union"`      | Append lines not already present   | Yes        | `.gitignore`, `.Rbuildignore` |
-| `"append"`     | Append all content unconditionally | No         | Rare; prefer `"union"`        |
-| `"merge_json"` | Recursively merge JSON objects     | Yes        | `.claude/settings.json`       |
+| Strategy | Behavior | Idempotent | Typical use |
+|----|----|----|----|
+| `"overwrite"` | Replace the file entirely | Yes | Managed config files |
+| `"skip"` | Do nothing if file exists | Yes | Starter files users will edit |
+| `"union"` | Append lines not already present | Yes | `.gitignore`, `.Rbuildignore` |
+| `"append"` | Append all content unconditionally | No | Rare; prefer `"union"` |
+| `"merge_json"` | Recursively merge JSON objects | Yes | `.claude/settings.json` |
 
 Guidelines for choosing:
 
@@ -239,6 +253,7 @@ Guidelines for choosing:
 File steps support `{{var}}` interpolation when `data` is non-NULL:
 
 ``` r
+
 from_templates <- from_dir("~/my-templates")
 new_theme(
   # data = list() enables rendering with auto-discovered variables only
@@ -282,6 +297,7 @@ in `~/.prefab-themes.R` which is sourced by the function
 [`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md):
 
 ``` r
+
 load_themes()
 use_theme(my_analysis_theme())
 ```
@@ -311,6 +327,7 @@ prints R code that reproduces a theme – useful for understanding
 built-in themes or as a starting point for customization:
 
 ``` r
+
 theme_code(claude_r_analysis())
 #> new_theme(
 #> 

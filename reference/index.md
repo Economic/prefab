@@ -6,6 +6,8 @@
   : Apply a theme to the current project
 - [`create_project()`](https://economic.github.io/prefab/reference/create_project.md)
   : Create a new project and apply a theme
+- [`launch_project()`](https://economic.github.io/prefab/reference/launch_project.md)
+  : Launch a new project from an editor keyboard shortcut
 - [`load_themes()`](https://economic.github.io/prefab/reference/load_themes.md)
   : Load custom theme definitions
 

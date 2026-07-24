@@ -20,6 +20,10 @@ Useful links:
 
 **Maintainer**: Ben Zipperer <benzipperer@gmail.com>
 
+Authors:
+
+- Ben Zipperer <benzipperer@gmail.com>
+
 Other contributors:
 
 - Economic Policy Institute \[copyright holder, funder\]
