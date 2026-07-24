@@ -204,7 +204,10 @@ test_that("shows the destination directory in the prompt message", {
 
   launch_project(theme = new_theme(), root = tmp, open = FALSE)
 
-  expect_match(seen_message, tmp, fixed = TRUE)
+  # Normalize tmp with fs::path() to match how the message is built (via
+  # fs::path_join, which always emits forward slashes): on macOS TMPDIR ends
+  # in "/", so tmp can contain a "//"; on Windows tmp uses "\" separators.
+  expect_match(seen_message, as.character(fs::path(tmp)), fixed = TRUE)
 })
 
 test_that("includes the date subdirectory in the message when date = TRUE", {

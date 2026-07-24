@@ -79,7 +79,9 @@ test_that("open = FALSE does not change the working directory", {
   theme <- new_theme()
   create_project(project_path, theme, open = FALSE)
 
-  expect_equal(fs::path_abs(getwd()), fs::path_abs(tmp))
+  # path_real() (not path_abs) so the comparison is robust to symlinked temp
+  # dirs: on macOS getwd() resolves /var -> /private/var but path_abs does not.
+  expect_equal(fs::path_real(getwd()), fs::path_real(tmp))
 })
 
 test_that("open = TRUE falls back to setwd when no session opener is available", {
@@ -92,5 +94,7 @@ test_that("open = TRUE falls back to setwd when no session opener is available",
   theme <- new_theme()
   create_project(project_path, theme, open = TRUE)
 
-  expect_equal(fs::path_abs(getwd()), fs::path_abs(project_path))
+  # path_real() (not path_abs) so the comparison is robust to symlinked temp
+  # dirs: on macOS getwd() resolves /var -> /private/var but path_abs does not.
+  expect_equal(fs::path_real(getwd()), fs::path_real(project_path))
 })
